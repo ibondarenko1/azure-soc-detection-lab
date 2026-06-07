@@ -1,0 +1,8 @@
+// SC200-03 — RBAC role assignment changes
+// MITRE: Privilege Escalation / Persistence / T1098 Account Manipulation
+// Source: AzureActivity | Frequency: every 30 min | Lookback: 1h
+AzureActivity
+| where TimeGenerated > ago(1h)
+| where OperationNameValue has "Microsoft.Authorization/roleAssignments"
+| where ActivityStatusValue == "Success"
+| project TimeGenerated, Caller, OperationNameValue, Properties_d, ResourceId

@@ -1,0 +1,37 @@
+id: 891b7bed-9a2a-4715-835b-e1ad65b33570
+name: "[SC200] Failed Activity Log operations spike"
+description: |
+  A single caller produced a burst of failed Azure control-plane operations in a short
+  window — an early signal of permission probing / discovery by a compromised principal.
+severity: Medium
+requiredDataConnectors:
+  - connectorId: AzureActivity
+    dataTypes:
+      - AzureActivity
+queryFrequency: PT15M
+queryPeriod: PT1H
+triggerOperator: gt
+triggerThreshold: 0
+tactics:
+  - Discovery
+relevantTechniques:
+  - T1087
+query: |
+  AzureActivity
+  | where TimeGenerated > ago(1h)
+  | where ActivityStatusValue == "Failure"
+  | summarize FailureCount = count() by Caller, bin(TimeGenerated, 5m)
+  | where FailureCount >= 10
+entityMappings:
+  - entityType: Account
+    fieldMappings:
+      - identifier: FullName
+        columnName: Caller
+metadata:
+  atomic: "Heuristic (failed-permission probing). No exact 1:1 atomic — closest: T1087.004 Cloud Account Discovery / T1526 Cloud Service Discovery."
+  requiredFields: [AzureActivity.Caller, AzureActivity.ActivityStatusValue]
+  falsePositives:
+    - "Automation/service principals hitting RBAC limits or eventual-consistency retries."
+    - "IaC drift / failed deployments that retry."
+  severityRationale: "Reconnaissance, not destructive — Medium. Escalate if the caller later succeeds at a privileged operation."
+  responseAction: "Identify the caller, confirm intent, allow-list known automation principals before raising fidelity."

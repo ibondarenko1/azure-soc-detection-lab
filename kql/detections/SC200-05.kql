@@ -1,0 +1,10 @@
+// SC200-05 — Suspicious resource deployment by non-owner
+// MITRE: Persistence / T1098 Account Manipulation
+// Source: AzureActivity | Frequency: every 60 min | Lookback: 1h
+// NOTE: as-deployed the rule matches ANY successful control-plane write; the
+// "non-owner" intent is NOT enforced in this query (see card tuning notes).
+AzureActivity
+| where TimeGenerated > ago(1h)
+| where OperationNameValue endswith "/write"
+| where ActivityStatusValue == "Success"
+| project TimeGenerated, Caller, OperationNameValue, ResourceProviderValue, ResourceId, ActivityStatusValue

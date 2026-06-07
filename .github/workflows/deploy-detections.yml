@@ -1,0 +1,65 @@
+name: deploy-detections
+
+# Detection-as-Code pipeline:
+#   pull_request -> validate rule YAML (PR gate, blocks merge)
+#   push to main -> deploy rules to Microsoft Sentinel via OIDC (no secrets)
+
+on:
+  pull_request:
+    paths:
+      - "detections/rules/**"
+      - "cicd/**"
+      - ".github/workflows/deploy-detections.yml"
+  push:
+    branches: [main]
+    paths:
+      - "detections/rules/**"
+      - "cicd/**"
+
+permissions:
+  id-token: write      # OIDC token for azure/login
+  contents: read
+
+env:
+  SENTINEL_RESOURCE_GROUP: sc200-lab
+  SENTINEL_WORKSPACE: sc200-ws
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pyyaml
+      - name: Azure login (OIDC, read)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Validate rules
+        env:
+          SENTINEL_WORKSPACE_GUID: ${{ vars.SENTINEL_WORKSPACE_GUID }}
+        run: python cicd/validate-detections.py
+
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: sentinel-prod   # optional manual approval gate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pyyaml
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy rules to Sentinel
+        env:
+          AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+        run: python cicd/deploy-detections.py
