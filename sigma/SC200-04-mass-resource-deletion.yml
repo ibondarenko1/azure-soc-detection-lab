@@ -1,0 +1,45 @@
+# Sigma correlation rule (modern Sigma): a base detection + an event_count correlation.
+# Portable equivalent of SC200-04 (mass deletion threshold).
+title: Azure Resource Deletion
+name: azure_resource_deletion
+id: 9b3e7c41-2a8d-4f60-8e15-3c6d4b2a7e03
+status: experimental
+description: Base event — a successful Azure control-plane resource deletion.
+logsource:
+  product: azure
+  service: activitylogs
+detection:
+  selection:
+    operationName|endswith: '/delete'
+    properties.status|contains: 'Succeeded'
+  condition: selection
+level: informational
+tags:
+  - attack.impact
+  - attack.t1485
+---
+title: Azure Mass Resource Deletion
+id: 4c0a8d59-7e2b-4915-9f83-1d6b5a3c8e04
+status: experimental
+description: |
+  A single caller deletes 5+ Azure resources within 5 minutes — the signature of
+  destructive impact (ransomware-style wipe, insider teardown, compromised principal).
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: Ievgen Bondarenko
+date: 2026-06-07
+correlation:
+  type: event_count
+  rules:
+    - azure_resource_deletion
+  group-by:
+    - caller
+  timespan: 5m
+  condition:
+    gte: 5
+falsepositives:
+  - Legitimate teardown of ephemeral/test environments by IaC or automation
+level: high
+tags:
+  - attack.impact
+  - attack.t1485
