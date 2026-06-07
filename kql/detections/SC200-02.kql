@@ -1,0 +1,8 @@
+// SC200-02 — Network Security Group rule modified
+// MITRE: Defense Evasion / T1562 Impair Defenses
+// Source: AzureActivity | Frequency: every 30 min | Lookback: 1h
+AzureActivity
+| where TimeGenerated > ago(1h)
+| where OperationNameValue has "Microsoft.Network/networkSecurityGroups/securityRules"
+| where ActivityStatusValue == "Success"
+| project TimeGenerated, Caller, OperationNameValue, ResourceId

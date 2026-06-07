@@ -1,0 +1,38 @@
+id: 058e790c-7139-4857-b245-a9f6c70c1bfb
+name: "[SC200] RBAC role assignment changes"
+description: |
+  An Azure RBAC role assignment was created or removed. Granting a role (especially
+  Owner/Contributor/User Access Administrator) to a new principal is a primary
+  privilege-escalation and persistence mechanism in the cloud.
+severity: Medium
+requiredDataConnectors:
+  - connectorId: AzureActivity
+    dataTypes:
+      - AzureActivity
+queryFrequency: PT30M
+queryPeriod: PT1H
+triggerOperator: gt
+triggerThreshold: 0
+tactics:
+  - PrivilegeEscalation
+  - Persistence
+relevantTechniques:
+  - T1098
+query: |
+  AzureActivity
+  | where TimeGenerated > ago(1h)
+  | where OperationNameValue has "Microsoft.Authorization/roleAssignments"
+  | where ActivityStatusValue == "Success"
+  | project TimeGenerated, Caller, OperationNameValue, Properties_d, ResourceId
+entityMappings:
+  - entityType: Account
+    fieldMappings:
+      - identifier: FullName
+        columnName: Caller
+metadata:
+  atomic: "T1098.003 — Account Manipulation: Additional Cloud Roles (assign Azure role to a principal)."
+  requiredFields: [AzureActivity.OperationNameValue, AzureActivity.ActivityStatusValue, AzureActivity.Caller, AzureActivity.Properties_d]
+  falsePositives:
+    - "Routine access administration / onboarding; PIM activations."
+  severityRationale: "Reader-level grants are low risk; Owner/Contributor/User Access Administrator are escalation+persistence — Medium baseline, escalate by role granted."
+  responseAction: "Verify the grant is authorized; for high-privilege roles confirm the caller is an expected admin, otherwise remove the assignment and investigate."

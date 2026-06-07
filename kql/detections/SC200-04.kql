@@ -1,0 +1,9 @@
+// SC200-04 — Mass resource deletion
+// MITRE: Impact / T1485 Data Destruction
+// Source: AzureActivity | Frequency: every 15 min | Lookback: 1h
+AzureActivity
+| where TimeGenerated > ago(1h)
+| where OperationNameValue endswith "/delete"
+| where ActivityStatusValue == "Success"
+| summarize DeleteCount = count(), DeletedResources = make_set(ResourceId, 10) by Caller, bin(TimeGenerated, 5m)
+| where DeleteCount >= 5

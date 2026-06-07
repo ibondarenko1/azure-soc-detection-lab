@@ -1,0 +1,10 @@
+# Unredacted screenshot staging — never commit raw captures with tenant/sub IDs or PII
+screenshots/_raw/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/

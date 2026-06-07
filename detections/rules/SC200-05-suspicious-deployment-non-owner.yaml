@@ -1,0 +1,40 @@
+id: 3b8b8410-f071-4ad2-b684-f0b08c0b25fb
+name: "[SC200] Suspicious resource deployment by non-owner"
+description: |
+  A successful control-plane write (resource deployment). Intended to surface deployments
+  by unexpected principals (attacker standing up compute/storage for mining, staging, or
+  persistence).
+  KNOWN GAP: as deployed, the logic matches ANY successful /write and does not enforce the
+  "non-owner" intent — see metadata.tuningGap and docs for the v2 fix.
+severity: Medium
+requiredDataConnectors:
+  - connectorId: AzureActivity
+    dataTypes:
+      - AzureActivity
+queryFrequency: PT1H
+queryPeriod: PT1H
+triggerOperator: gt
+triggerThreshold: 0
+tactics:
+  - Persistence
+relevantTechniques:
+  - T1098
+query: |
+  AzureActivity
+  | where TimeGenerated > ago(1h)
+  | where OperationNameValue endswith "/write"
+  | where ActivityStatusValue == "Success"
+  | project TimeGenerated, Caller, OperationNameValue, ResourceProviderValue, ResourceId, ActivityStatusValue
+entityMappings:
+  - entityType: Account
+    fieldMappings:
+      - identifier: FullName
+        columnName: Caller
+metadata:
+  atomic: "T1098 — loose (resource-creation persistence by unexpected principal). No exact 1:1 atomic."
+  requiredFields: [AzureActivity.OperationNameValue, AzureActivity.ActivityStatusValue, AzureActivity.Caller, AzureActivity.ResourceProviderValue]
+  falsePositives:
+    - "EVERY successful write in an active subscription — the as-deployed rule is too broad (documented gap)."
+  severityRationale: "Medium as intended; in practice the broad logic inflates volume — see tuningGap."
+  responseAction: "Confirm the caller is an expected deployer; if not, investigate the new resource for abuse (mining/staging)."
+  tuningGap: "Logic does not match the name. v2: filter ResourceProviderValue in (Compute,Storage,Web) AND Caller !in (owners allow-list). See detections/SC200-05 card."
