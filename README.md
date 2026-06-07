@@ -71,18 +71,20 @@ Two incidents are written up as full investigations:
 ## Repository layout
 
 ```
-detections/     one card per rule: logic, MITRE, trigger, evidence
-kql/detections  the analytics-rule queries
-kql/hunting     hunting queries used during investigation
-investigations  end-to-end incident write-ups
-simulations     exact trigger steps for each detection
-docs            lab architecture + methodology
-screenshots     visual evidence
+detections/rules  rule source-of-truth (Sentinel YAML, deployed by CI)
+detections/*.md   one card per rule: logic, MITRE, trigger, evidence
+cicd/ + .github   Detection-as-Code pipeline (deploy, validate, regression)
+sigma/            vendor-neutral Sigma conversions (portable to any SIEM)
+kql/              analytics-rule queries + hunting library
+investigations/   end-to-end incident write-ups
+simulations/      exact atomic-aligned trigger steps
+docs/             architecture · methodology · cicd · validation
+screenshots/      visual evidence
 ```
 
 ## Skills demonstrated
 
-KQL · Microsoft Sentinel scheduled analytics rules · Microsoft Defender XDR · incident triage & investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
+KQL · Microsoft Sentinel scheduled analytics rules · Microsoft Defender XDR · Detection-as-Code (GitHub Actions, OIDC) · Sigma (vendor-neutral) · Atomic Red Team validation · incident triage & investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
 
 ## Disclaimer
 

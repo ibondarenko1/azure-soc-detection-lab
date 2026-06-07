@@ -1,0 +1,25 @@
+title: Azure Network Security Group Rule Modified
+id: 7d2c6a14-3e8b-4a9f-9c21-2f5b1e0a4c01
+status: experimental
+description: |
+  Detects creation, modification, or deletion of an Azure Network Security Group
+  security rule. Loosening an NSG (e.g. opening a management port to the internet)
+  weakens network defenses. Portable Sigma equivalent of SC200-02.
+references:
+  - https://attack.mitre.org/techniques/T1562/007/
+author: Ievgen Bondarenko
+date: 2026-06-07
+logsource:
+  product: azure
+  service: activitylogs
+detection:
+  selection:
+    operationName|contains: 'Microsoft.Network/networkSecurityGroups/securityRules'
+    properties.status|contains: 'Succeeded'
+  condition: selection
+falsepositives:
+  - Legitimate network change management / infrastructure-as-code applying NSG updates
+level: medium
+tags:
+  - attack.defense-evasion
+  - attack.t1562.007

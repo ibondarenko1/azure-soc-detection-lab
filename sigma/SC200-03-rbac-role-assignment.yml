@@ -1,0 +1,27 @@
+title: Azure RBAC Role Assignment Change
+id: 1f4b9e22-6c0d-47a8-bb3e-9a7c2d5e8f02
+status: experimental
+description: |
+  Detects creation or removal of an Azure RBAC role assignment. Granting a role
+  (especially Owner/Contributor/User Access Administrator) to a new principal is a
+  primary cloud privilege-escalation and persistence mechanism. Portable Sigma
+  equivalent of SC200-03.
+references:
+  - https://attack.mitre.org/techniques/T1098/003/
+author: Ievgen Bondarenko
+date: 2026-06-07
+logsource:
+  product: azure
+  service: activitylogs
+detection:
+  selection:
+    operationName|contains: 'Microsoft.Authorization/roleAssignments'
+    properties.status|contains: 'Succeeded'
+  condition: selection
+falsepositives:
+  - Routine access administration / onboarding; PIM activations
+level: medium
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+  - attack.t1098.003
