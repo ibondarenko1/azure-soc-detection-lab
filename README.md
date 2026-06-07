@@ -91,6 +91,8 @@ The highest-severity detection closes the loop **detect → respond**. A Sentine
 ```
 detections/rules  rule source-of-truth (Sentinel YAML, deployed by CI)
 detections/*.md   one card per rule: logic, MITRE, trigger, evidence
+detections/metrics.yaml  per-detection metrics (volume, FP rate, TP, MTTD)
+tests/            synthetic-log unit tests (Kusto emulator, fork-runnable)
 cicd/ + .github   Detection-as-Code pipeline (deploy, validate, regression)
 sigma/            vendor-neutral Sigma conversions (portable to any SIEM)
 kql/              analytics-rule queries + hunting library
@@ -98,7 +100,7 @@ investigations/   end-to-end incident write-ups
 simulations/      exact atomic-aligned trigger steps
 navigator/        ATT&CK coverage layer (covered + gaps)
 playbooks/        SOAR response (Logic App + automation rule)
-docs/             architecture · methodology · cicd · validation
+docs/             architecture · methodology · cicd · validation · data-dictionary
 screenshots/      visual evidence
 ```
 
