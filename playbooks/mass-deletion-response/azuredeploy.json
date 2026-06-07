@@ -53,29 +53,17 @@
             }
           },
           "actions": {
-            "Add_tag_auto-triaged": {
-              "type": "ApiConnection",
-              "inputs": {
-                "host": { "connection": { "name": "@parameters('$connections')['azuresentinel']['connectionId']" } },
-                "method": "put",
-                "path": "/Incidents/Tag",
-                "body": {
-                  "incidentArmId": "@triggerBody()?['object']?['id']",
-                  "tags": [ { "Tag": "auto-triaged" } ]
-                }
-              }
-            },
             "Add_enrichment_comment": {
-              "type": "ApiConnection",
-              "runAfter": { "Add_tag_auto-triaged": [ "Succeeded" ] },
+              "type": "Http",
               "inputs": {
-                "host": { "connection": { "name": "@parameters('$connections')['azuresentinel']['connectionId']" } },
-                "method": "post",
-                "path": "/Incidents/Comment",
+                "method": "PUT",
+                "uri": "https://management.azure.com@{triggerBody()?['object']?['id']}/comments/@{guid()}?api-version=2023-11-01",
                 "body": {
-                  "incidentArmId": "@triggerBody()?['object']?['id']",
-                  "message": "Auto-triage (SC200-04 Mass resource deletion): destructive-impact pattern detected. Suggested response — disable/quarantine the caller, lock affected resource groups (CanNotDelete), restore from backup, hunt initial access. See investigations/INV-01."
-                }
+                  "properties": {
+                    "message": "Auto-triage (SC200-04 Mass resource deletion): destructive-impact pattern detected. Suggested response — disable/quarantine the caller, lock affected resource groups (CanNotDelete), restore from backup, hunt initial access. See investigations/INV-01."
+                  }
+                },
+                "authentication": { "type": "ManagedServiceIdentity", "audience": "https://management.azure.com" }
               }
             }
           },
