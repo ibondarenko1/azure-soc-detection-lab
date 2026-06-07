@@ -1,0 +1,11 @@
+# GitHub Linguist overrides — present this as a detection-engineering repo,
+# not a Python project. The substance is KQL detections + rule/Sigma YAML.
+
+*.kql linguist-detectable=true linguist-language=Kusto
+detections/rules/*.yaml linguist-language=YAML
+sigma/*.yml linguist-language=YAML
+
+# Supporting automation / test harness / pipelines are glue, not the substance.
+cicd/** linguist-vendored=true
+tests/** linguist-vendored=true
+.github/** linguist-vendored=true

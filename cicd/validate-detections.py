@@ -44,6 +44,11 @@ def check_rule(path):
         for t in r["relevantTechniques"]:
             if not re.match(r"^T\d{4}(\.\d{3})?$", str(t)):
                 errs.append(f"bad technique id: {t}")
+    op = str(r.get("triggerOperator", "")).lower()
+    if op and op not in ("gt", "lt", "eq", "ne"):
+        errs.append(f"invalid triggerOperator: {r.get('triggerOperator')}")
+    if not r.get("entityMappings"):
+        errs.append("missing entityMappings — every rule should map at least one entity")
     return errs, r
 
 

@@ -5,11 +5,7 @@ name: detection-tests
 # on a fork. Asserts each rule fires on malicious data and stays silent on benign.
 
 on:
-  pull_request:
-    paths:
-      - "detections/rules/**"
-      - "tests/**"
-      - ".github/workflows/detection-tests.yml"
+  pull_request:        # runs on every PR so the required check stays consistent
   push:
     branches: [main]
     paths:
