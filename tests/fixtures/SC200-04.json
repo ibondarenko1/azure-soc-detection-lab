@@ -1,0 +1,16 @@
+{
+  "_comment": "SC200-04 mass deletion: >=5 /delete Success per 5m bin per caller.",
+  "fires": [
+    {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/delete", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/d1"},
+    {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/delete", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/d2"},
+    {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/delete", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/d3"},
+    {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Compute/disks/delete", "ResourceProviderValue": "Microsoft.Compute", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Compute/disks/d4"},
+    {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/networkSecurityGroups/delete", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/networkSecurityGroups/d5"}
+  ],
+  "silent": [
+    {"ActivityStatusValue": "Success", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/delete", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/e1"},
+    {"ActivityStatusValue": "Success", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/delete", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/e2"},
+    {"ActivityStatusValue": "Success", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/delete", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/e3"},
+    {"ActivityStatusValue": "Success", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/delete", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/e4"}
+  ]
+}
