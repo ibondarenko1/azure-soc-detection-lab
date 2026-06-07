@@ -2,14 +2,14 @@
 
 Closes the loop **detect → respond** on the highest-severity detection (SC200-04). When a
 Mass-resource-deletion incident is created, a Sentinel **automation rule** runs this
-**Logic App** playbook, which:
+**Logic App** playbook, which posts an **enrichment comment** on the incident with the
+suggested response (disable/quarantine the caller, lock the affected resource groups,
+restore from backup, hunt initial access — see [INV-01](../../investigations/INV-01-mass-resource-deletion.md)).
 
-1. tags the incident `auto-triaged`,
-2. posts an **enrichment comment** with the suggested response (disable/quarantine the caller, lock the affected resource groups, restore from backup, hunt initial access — see [INV-01](../../investigations/INV-01-mass-resource-deletion.md)).
-
-**No secrets, no external connector.** The playbook authenticates with its own
-**system-assigned managed identity** (Sentinel connection `parameterValueType: Alternative`),
-granted **Microsoft Sentinel Responder** on the workspace RG.
+**No secrets, no external connector.** The playbook's action is a direct **HTTP call to the
+ARM API** authenticated by its own **system-assigned managed identity** (granted
+**Microsoft Sentinel Responder** on the workspace RG) — the azuresentinel connection exists
+only for the incident trigger.
 
 ## Files
 - `azuredeploy.json` — Logic App + managed-identity Sentinel connection (ARM, no hardcoded IDs).
