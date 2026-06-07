@@ -21,7 +21,7 @@ query: |
   | where TimeGenerated > ago(1h)
   | where ActivityStatusValue == "Failure"
   | summarize FailureCount = count() by Caller, bin(TimeGenerated, 5m)
-  | where FailureCount >= 10
+  | where FailureCount >= 8
 entityMappings:
   - entityType: Account
     fieldMappings:
