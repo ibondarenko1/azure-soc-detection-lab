@@ -1,0 +1,10 @@
+{
+  "_comment": "SC200-03 roleAssignments, Success.",
+  "fires": [
+    {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Authorization/roleAssignments/write", "ResourceProviderValue": "Microsoft.Authorization", "ResourceId": "/subscriptions/x/providers/Microsoft.Authorization/roleAssignments/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "Properties_d": {"eventCategory": "Administrative"}}
+  ],
+  "silent": [
+    {"ActivityStatusValue": "Success", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Compute/virtualMachines/write", "ResourceProviderValue": "Microsoft.Compute", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Compute/virtualMachines/vm1"},
+    {"ActivityStatusValue": "Failure", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Authorization/roleAssignments/write", "ResourceProviderValue": "Microsoft.Authorization", "ResourceId": "/subscriptions/x/providers/Microsoft.Authorization/roleAssignments/ffffffff-0000-1111-2222-333333333333"}
+  ]
+}

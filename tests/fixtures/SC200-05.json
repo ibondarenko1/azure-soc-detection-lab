@@ -1,0 +1,10 @@
+{
+  "_comment": "SC200-05 any successful /write (as-deployed broad logic).",
+  "fires": [
+    {"ActivityStatusValue": "Success", "Caller": "sp-unknown@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/write", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg1"}
+  ],
+  "silent": [
+    {"ActivityStatusValue": "Failure", "Caller": "sp-unknown@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/write", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg2"},
+    {"ActivityStatusValue": "Success", "Caller": "sp-unknown@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/read", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg3"}
+  ]
+}
