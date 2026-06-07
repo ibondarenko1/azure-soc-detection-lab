@@ -84,7 +84,7 @@ The gaps aren't static text — each is a live [`detection-gap` issue](../../iss
 
 ## Automated response (SOAR)
 
-The highest-severity detection closes the loop **detect → respond**. A Sentinel automation rule runs a [Logic App playbook](playbooks/mass-deletion-response) on every SC200-04 (mass deletion) incident: it tags the incident `auto-triaged` and posts an enrichment comment with the recommended containment. The playbook uses its own **managed identity** (Sentinel Responder) — no secrets, no external connector.
+The highest-severity detection closes the loop **detect → respond**. A Sentinel automation rule runs a [Logic App playbook](playbooks/mass-deletion-response) on every SC200-04 (mass deletion) incident: it posts an enrichment comment with the recommended containment (disable the caller, lock the resource groups, restore, hunt). The playbook authenticates with its own **managed identity** straight to the ARM API — no secrets, no external connector.
 
 ## Repository layout
 
