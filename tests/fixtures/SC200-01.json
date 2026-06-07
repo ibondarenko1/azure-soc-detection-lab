@@ -1,0 +1,23 @@
+{
+  "_comment": "SC200-01 failed-ops spike: >=8 failures per 5m bin per caller.",
+  "fires": [
+    {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/p1"},
+    {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/p2"},
+    {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/p3"},
+    {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/p4"},
+    {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/p5"},
+    {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/p6"},
+    {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/p7"},
+    {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/p8"}
+  ],
+  "silent": [
+    {"ActivityStatusValue": "Failure", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/q1"},
+    {"ActivityStatusValue": "Failure", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/q2"},
+    {"ActivityStatusValue": "Failure", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/q3"},
+    {"ActivityStatusValue": "Failure", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/q4"},
+    {"ActivityStatusValue": "Failure", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/q5"},
+    {"ActivityStatusValue": "Success", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/q6"},
+    {"ActivityStatusValue": "Success", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/q7"},
+    {"ActivityStatusValue": "Success", "Caller": "ops@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/q8"}
+  ]
+}

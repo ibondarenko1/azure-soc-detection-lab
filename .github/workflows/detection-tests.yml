@@ -1,0 +1,48 @@
+name: detection-tests
+
+# Unit-test the detection KQL against synthetic AzureActivity fixtures using a
+# local Kusto emulator (kustainer). No Azure tenant needed — fully reproducible
+# on a fork. Asserts each rule fires on malicious data and stays silent on benign.
+
+on:
+  pull_request:
+    paths:
+      - "detections/rules/**"
+      - "tests/**"
+      - ".github/workflows/detection-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - "detections/rules/**"
+      - "tests/**"
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    services:
+      kusto:
+        image: mcr.microsoft.com/azuredataexplorer/kustainer-linux:latest
+        ports: ["8080:8080"]
+        env:
+          ACCEPT_EULA: "Y"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pyyaml
+      - name: Wait for Kusto emulator
+        run: |
+          for i in $(seq 1 60); do
+            if curl -s -X POST http://localhost:8080/v1/rest/query \
+                 -H 'Content-Type: application/json' \
+                 -d '{"db":"NetDefaultDB","csl":"print 1"}' | grep -q '"Rows"'; then
+              echo "emulator ready"; exit 0
+            fi
+            sleep 5
+          done
+          echo "kustainer did not become ready"; exit 1
+      - name: Run detection unit tests
+        run: python tests/run-detection-tests.py
