@@ -1,7 +1,7 @@
 id: 139a66be-c7a6-4518-9404-b811caab736d
 name: "[SC200] Mass resource deletion"
 description: |
-  A single caller deleted many resources in a short window — the signature of destructive
+  A single caller deleted many resources in a short window, the signature of destructive
   impact (ransomware-style wipe, insider teardown, or a compromised principal).
 severity: High
 requiredDataConnectors:
@@ -29,9 +29,9 @@ entityMappings:
       - identifier: FullName
         columnName: Caller
 metadata:
-  atomic: "T1485 — Data Destruction (Azure resource deletion atomics)."
+  atomic: "T1485, Data Destruction (Azure resource deletion atomics)."
   requiredFields: [AzureActivity.OperationNameValue, AzureActivity.ActivityStatusValue, AzureActivity.Caller, AzureActivity.ResourceId]
   falsePositives:
     - "Legitimate teardown of ephemeral/test environments by IaC or automation."
-  severityRationale: "Irreversible, high blast-radius — High. Bulk deletion is rarely benign outside controlled automation."
+  severityRationale: "Irreversible, high blast-radius, High. Bulk deletion is rarely benign outside controlled automation."
   responseAction: "Disable/quarantine the caller, lock affected resource groups (CanNotDelete), initiate restore from backup, hunt for initial access."

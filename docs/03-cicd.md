@@ -1,6 +1,6 @@
-# CI/CD — Detection-as-Code
+# CI/CD, Detection-as-Code
 
-Detection rules are **code**. They live as YAML in `detections/rules/`, are reviewed via pull request, and reach Microsoft Sentinel **only** through a pipeline — never hand-deployed. Authentication uses **OIDC federated credentials**, so no client secret is ever stored.
+Detection rules are **code**. They live as YAML in `detections/rules/`, are reviewed via pull request, and reach Microsoft Sentinel **only** through a pipeline, never hand-deployed. Authentication uses **OIDC federated credentials**, so no client secret is ever stored.
 
 ## Flow
 
@@ -14,7 +14,7 @@ flowchart LR
 ```
 
 - **PR** → `validate` job runs `cicd/validate-detections.py` (YAML schema, GUID, severity, ISO-8601 durations, technique IDs; optional KQL `| take 0` parse). Branch protection requires this check + 1 review before merge.
-- **Merge to main** → `deploy` job runs `cicd/deploy-detections.py`: OIDC login, then an **idempotent PUT** of each rule to `alertRules/{id}` (API `2025-09-01`). Reusing each rule's GUID means deploys **update in place** — no duplicates.
+- **Merge to main** → `deploy` job runs `cicd/deploy-detections.py`: OIDC login, then an **idempotent PUT** of each rule to `alertRules/{id}` (API `2025-09-01`). Reusing each rule's GUID means deploys **update in place**, no duplicates.
 
 ## Source of truth
 
@@ -24,21 +24,21 @@ Each rule is one YAML file in `detections/rules/` (Azure-Sentinel format) carryi
 
 ## OIDC setup (one-time)
 
-No secrets in the repo — GitHub requests a short-lived token at run time and Azure validates it.
+No secrets in the repo, GitHub requests a short-lived token at run time and Azure validates it.
 
 ```bash
-APP_ID=$(az ad app create --display-name gha-azure-soc-detection-lab --query appId -o tsv)
+APP_ID=$(az ad app create --display-name gha-azure-sentinel-detection-engineering --query appId -o tsv)
 az ad sp create --id "$APP_ID"
 SUB=$(az account show --query id -o tsv)
 
 # federated credentials: main branch (deploy) + pull requests (validate)
 az ad app federated-credential create --id "$APP_ID" --parameters '{
   "name":"gha-main","issuer":"https://token.actions.githubusercontent.com",
-  "subject":"repo:ibondarenko1/azure-soc-detection-lab:ref:refs/heads/main",
+  "subject":"repo:ibondarenko1/azure-sentinel-detection-engineering:ref:refs/heads/main",
   "audiences":["api://AzureADTokenExchange"]}'
 az ad app federated-credential create --id "$APP_ID" --parameters '{
   "name":"gha-pr","issuer":"https://token.actions.githubusercontent.com",
-  "subject":"repo:ibondarenko1/azure-soc-detection-lab:pull_request",
+  "subject":"repo:ibondarenko1/azure-sentinel-detection-engineering:pull_request",
   "audiences":["api://AzureADTokenExchange"]}'
 
 # least-privilege role on the workspace RG
@@ -46,7 +46,7 @@ az role assignment create --assignee "$APP_ID" --role "Microsoft Sentinel Contri
   --scope "/subscriptions/$SUB/resourceGroups/sc200-lab"
 ```
 
-Then set **repository variables** (Settings → Secrets and variables → Actions → Variables — these are IDs, not secrets):
+Then set **repository variables** (Settings → Secrets and variables → Actions → Variables, these are IDs, not secrets):
 
 | Variable | Value |
 |----------|-------|

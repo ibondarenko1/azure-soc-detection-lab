@@ -1,7 +1,7 @@
 name: detection-tests
 
 # Unit-test the detection KQL against synthetic AzureActivity fixtures using a
-# local Kusto emulator (kustainer). No Azure tenant needed — fully reproducible
+# local Kusto emulator (kustainer). No Azure tenant needed, fully reproducible
 # on a fork. Asserts each rule fires on malicious data and stays silent on benign.
 
 on:

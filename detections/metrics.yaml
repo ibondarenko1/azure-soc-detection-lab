@@ -1,12 +1,12 @@
 # Machine-readable per-detection metrics.
-# Volume / FP rate are lab observations (single-tenant); production numbers would
+# Volume / FP rate are single-tenant observations; production numbers would
 # replace them. truePositivesObserved references the real incidents this repo raised.
 # mttdMinutesObserved = scheduled-rule interval + observed ingestion lag.
 
 SC200-01:
   name: Failed Activity Log operations spike
   expectedEventVolumePerDay: "<1 (admin-plane failures are rare outside probing)"
-  observedFalsePositiveRate: "0% (no benign caller crossed >=8/5m in the lab)"
+  observedFalsePositiveRate: "0% (no benign caller crossed >=8/5m in this environment)"
   truePositivesObserved: 1          # incident #4
   ruleIntervalMinutes: 15
   mttdMinutesObserved: 18
@@ -14,7 +14,7 @@ SC200-01:
 SC200-02:
   name: Network Security Group rule modified
   expectedEventVolumePerDay: "0-2 (NSG changes are infrequent in a small env)"
-  observedFalsePositiveRate: "n/a in lab (no legitimate NSG change occurred)"
+  observedFalsePositiveRate: "n/a in this environment (no legitimate NSG change occurred)"
   truePositivesObserved: 1          # incident #5
   ruleIntervalMinutes: 30
   mttdMinutesObserved: 33
@@ -22,7 +22,7 @@ SC200-02:
 SC200-03:
   name: RBAC role assignment changes
   expectedEventVolumePerDay: "0-3 (onboarding / PIM activity)"
-  observedFalsePositiveRate: "n/a in lab"
+  observedFalsePositiveRate: "n/a in this environment"
   truePositivesObserved: 1          # incident #2
   ruleIntervalMinutes: 30
   mttdMinutesObserved: 33
@@ -37,7 +37,7 @@ SC200-04:
 
 SC200-05:
   name: Suspicious resource deployment by non-owner
-  expectedEventVolumePerDay: "HIGH — as-deployed logic matches every write (known gap)"
+  expectedEventVolumePerDay: "HIGH, as-deployed logic matches every write (known gap)"
   observedFalsePositiveRate: "high by design (see SC200-05 tuningGap / v2 fix)"
   truePositivesObserved: 1          # incident #1
   ruleIntervalMinutes: 60

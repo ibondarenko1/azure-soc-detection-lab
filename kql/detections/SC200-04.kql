@@ -1,4 +1,4 @@
-// SC200-04 — Mass resource deletion
+// SC200-04, Mass resource deletion
 // MITRE: Impact / T1485 Data Destruction
 // Source: AzureActivity | Frequency: every 15 min | Lookback: 1h
 AzureActivity

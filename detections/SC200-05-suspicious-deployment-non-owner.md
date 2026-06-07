@@ -1,4 +1,4 @@
-# SC200-05 — Suspicious resource deployment by non-owner
+# SC200-05, Suspicious resource deployment by non-owner
 
 | | |
 |---|---|
@@ -8,7 +8,7 @@
 | **Status** | Enabled |
 | **Data source** | `AzureActivity` |
 | **MITRE tactic** | Persistence |
-| **MITRE technique** | [T1098 — Account Manipulation](https://attack.mitre.org/techniques/T1098/) |
+| **MITRE technique** | [T1098, Account Manipulation](https://attack.mitre.org/techniques/T1098/) |
 
 ## What it catches
 
@@ -26,7 +26,7 @@ AzureActivity
 | project TimeGenerated, Caller, OperationNameValue, ResourceProviderValue, ResourceId, ActivityStatusValue
 ```
 
-> **Finding — logic does not match intent.** As deployed, this rule fires on **any** successful control-plane `/write`; it does **not** restrict to non-owner callers or to specific resource types. The "non-owner" intent in the name is not enforced. This is documented here as an honest detection-engineering gap and a v2 tuning target (see tuning notes).
+> **Finding, logic does not match intent.** As deployed, this rule fires on **any** successful control-plane `/write`; it does **not** restrict to non-owner callers or to specific resource types. The "non-owner" intent in the name is not enforced. This is documented here as an honest detection-engineering gap and a v2 tuning target (see tuning notes).
 
 ## How to trigger (simulation)
 
@@ -56,8 +56,8 @@ AzureActivity
 ```
 
 - Maintain the `owners` allow-list as the core of fidelity; everyone legitimately deploying must be enumerated.
-- Resource type matters — a new `Microsoft.Compute` (VM) by a non-owner is higher signal than storage.
+- Resource type matters, a new `Microsoft.Compute` (VM) by a non-owner is higher signal than storage.
 
 **Evasion.** Even the v2 logic is evaded by an attacker who first adds their principal to the `owners` set (→ chain with [SC200-03](SC200-03-rbac-role-assignment-changes.md)), or deploys a resource type outside the watch-list.
 
-**Validation.** ATT&CK [T1098](https://attack.mitre.org/techniques/T1098/) — loose mapping (resource-creation persistence); validated manually, not in automated regression. See [docs/04-validation.md](../docs/04-validation.md).
+**Validation.** ATT&CK [T1098](https://attack.mitre.org/techniques/T1098/), loose mapping (resource-creation persistence); validated manually, not in automated regression. See [docs/04-validation.md](../docs/04-validation.md).

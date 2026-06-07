@@ -1,6 +1,6 @@
 # Sigma conversions
 
-The three cleanest AzureActivity detections, expressed in **[Sigma](https://sigmahq.io/)** —
+The three cleanest AzureActivity detections, expressed in **[Sigma](https://sigmahq.io/)**, 
 the vendor-neutral detection format. Same logic, portable to any SIEM (Splunk, Elastic,
 QRadar, …) via `sigma convert`, not locked to Microsoft KQL.
 

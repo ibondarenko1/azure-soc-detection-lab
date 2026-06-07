@@ -3,7 +3,7 @@
 
 Runs each rule's REAL query against a local Kusto emulator (kustainer) over
 synthetic fixtures, asserting it FIRES on malicious data and stays SILENT on
-benign data. No live tenant required — anyone can fork and run this.
+benign data. No live tenant required, anyone can fork and run this.
 
 Env: KUSTO_URI (default http://localhost:8080), KUSTO_DB (default NetDefaultDB).
 """
@@ -74,7 +74,7 @@ def main():
         m = re.match(r"(SC200-\d+)", os.path.basename(path))
         fx_path = os.path.join(FIX, m.group(1) + ".json")
         if not os.path.exists(fx_path):
-            print(f"SKIP {rule['name']} — no fixture"); continue
+            print(f"SKIP {rule['name']}, no fixture"); continue
         fx = json.load(open(fx_path, encoding="utf-8"))
         for scenario, should_fire in (("fires", True), ("silent", False)):
             events = fx.get(scenario, [])

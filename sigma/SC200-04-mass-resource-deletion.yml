@@ -4,7 +4,7 @@ title: Azure Resource Deletion
 name: azure_resource_deletion
 id: 9b3e7c41-2a8d-4f60-8e15-3c6d4b2a7e03
 status: experimental
-description: Base event — a successful Azure control-plane resource deletion.
+description: Base event, a successful Azure control-plane resource deletion.
 logsource:
   product: azure
   service: activitylogs
@@ -22,7 +22,7 @@ title: Azure Mass Resource Deletion
 id: 4c0a8d59-7e2b-4915-9f83-1d6b5a3c8e04
 status: experimental
 description: |
-  A single caller deletes 5+ Azure resources within 5 minutes — the signature of
+  A single caller deletes 5+ Azure resources within 5 minutes, the signature of
   destructive impact (ransomware-style wipe, insider teardown, compromised principal).
 references:
   - https://attack.mitre.org/techniques/T1485/

@@ -1,4 +1,4 @@
-// SC200-01 — Failed Activity Log operations spike
+// SC200-01, Failed Activity Log operations spike
 // MITRE: Discovery / T1087 Account Discovery
 // Source: AzureActivity | Frequency: every 15 min | Lookback: 1h
 AzureActivity

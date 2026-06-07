@@ -2,7 +2,7 @@
 """Validate detection rule YAML before deploy (PR gate).
 
 Always: schema / required-field / value checks (no Azure access needed).
-Optional: KQL smoke check — set SENTINEL_WORKSPACE_GUID (Log Analytics customerId) and be
+Optional: KQL smoke check, set SENTINEL_WORKSPACE_GUID (Log Analytics customerId) and be
 `az` logged in; each query is run with `| take 0` to confirm it parses.
 """
 import os
@@ -48,7 +48,7 @@ def check_rule(path):
     if op and op not in ("gt", "lt", "eq", "ne"):
         errs.append(f"invalid triggerOperator: {r.get('triggerOperator')}")
     if not r.get("entityMappings"):
-        errs.append("missing entityMappings — every rule should map at least one entity")
+        errs.append("missing entityMappings, every rule should map at least one entity")
     return errs, r
 
 

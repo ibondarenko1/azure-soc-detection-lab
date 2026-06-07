@@ -30,9 +30,9 @@ entityMappings:
       - identifier: FullName
         columnName: Caller
 metadata:
-  atomic: "T1098.003 — Account Manipulation: Additional Cloud Roles (assign Azure role to a principal)."
+  atomic: "T1098.003, Account Manipulation: Additional Cloud Roles (assign Azure role to a principal)."
   requiredFields: [AzureActivity.OperationNameValue, AzureActivity.ActivityStatusValue, AzureActivity.Caller, AzureActivity.Properties_d]
   falsePositives:
     - "Routine access administration / onboarding; PIM activations."
-  severityRationale: "Reader-level grants are low risk; Owner/Contributor/User Access Administrator are escalation+persistence — Medium baseline, escalate by role granted."
+  severityRationale: "Reader-level grants are low risk; Owner/Contributor/User Access Administrator are escalation+persistence, Medium baseline, escalate by role granted."
   responseAction: "Verify the grant is authorized; for high-privilege roles confirm the caller is an expected admin, otherwise remove the assignment and investigate."

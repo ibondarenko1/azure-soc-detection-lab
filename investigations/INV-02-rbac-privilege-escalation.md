@@ -1,11 +1,11 @@
-# INV-02 — RBAC privilege escalation
+# INV-02, RBAC privilege escalation
 
 > Investigation write-up for the incident raised by [SC200-03](../detections/SC200-03-rbac-role-assignment-changes.md). Fields marked _(fill)_ are completed from the live incident.
 
 | | |
 |---|---|
 | **Incident ID** | #2 |
-| **Detection** | SC200-03 — RBAC role assignment changes |
+| **Detection** | SC200-03, RBAC role assignment changes |
 | **Severity** | Medium |
 | **MITRE** | Privilege Escalation / Persistence → [T1098 Account Manipulation](https://attack.mitre.org/techniques/T1098/) |
 | **Status** | New |
@@ -34,7 +34,7 @@ AzureActivity
 | order by TimeGenerated asc
 ```
 
-- Role granted: _(fill — Reader in sim; flag if Owner/Contributor/UAA)_
+- Role granted: _(fill, Reader in sim; flag if Owner/Contributor/UAA)_
 - Other privilege operations by the caller: _(fill)_
 - Is the caller an expected admin? _(fill)_
 
@@ -42,7 +42,7 @@ AzureActivity
 
 - **Determination:** _(true positive simulation / benign)_
 - **Risk:** a persistent grant survives credential resets; high-privilege roles = escalation + persistence.
-- **Root cause:** benign simulated Reader assignment then removed (lab).
+- **Root cause:** benign simulated Reader assignment then removed (controlled benign action).
 
 ## 4. Response
 

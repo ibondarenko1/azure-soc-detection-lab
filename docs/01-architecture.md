@@ -1,10 +1,10 @@
-# Lab architecture
+# Architecture
 
 ## Tenant & workspace
 
 - **Platform:** Microsoft Defender XDR with integrated Microsoft Sentinel (unified `security.microsoft.com` portal).
 - **Log Analytics workspace:** `sc200-ws`.
-- **Tenant:** personal lab tenant (identifier redacted in all evidence).
+- **Tenant:** environment I operate (identifiers redacted in all evidence).
 
 ## Data sources feeding the workspace
 
@@ -35,7 +35,7 @@ flowchart LR
 
 ## Detection surface
 
-All five v1 detections operate on the Azure **control plane** via the `AzureActivity` table — the highest-signal source for cloud administrative abuse (privilege changes, defensive-control tampering, destructive operations). The Defender for Office 365 email tables back the hunting library used for investigation pivots and are the planned v2 detection family.
+All five v1 detections operate on the Azure **control plane** via the `AzureActivity` table, the highest-signal source for cloud administrative abuse (privilege changes, defensive-control tampering, destructive operations). The Defender for Office 365 email tables back the hunting library used for investigation pivots and are the planned v2 detection family.
 
 ## Evidence
 

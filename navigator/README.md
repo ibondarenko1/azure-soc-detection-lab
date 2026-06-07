@@ -1,6 +1,6 @@
 # ATT&CK coverage layer
 
-[`coverage-layer.json`](coverage-layer.json) is a [MITRE ATT&CK Navigator](https://mitre-attack.github.io/attack-navigator/) layer showing what these detections cover — **and, honestly, what they don't**. A coverage map with explicit gaps is a stronger signal than a list of rules.
+[`coverage-layer.json`](coverage-layer.json) is a [MITRE ATT&CK Navigator](https://mitre-attack.github.io/attack-navigator/) layer showing what these detections cover, **and, honestly, what they don't**. A coverage map with explicit gaps is a stronger signal than a list of rules.
 
 ## Load it
 
@@ -9,7 +9,7 @@
 
 ## What it shows
 
-**Covered (green)** — one technique per deployed rule:
+**Covered (green)**, one technique per deployed rule:
 
 | Technique | Rule |
 |-----------|------|
@@ -19,7 +19,7 @@
 | T1485 Data Destruction | SC200-04 |
 | T1098 Account Manipulation | SC200-03 / SC200-05 |
 
-**Known gaps (red)** — same cloud kill-chain, not yet detected:
+**Known gaps (red)**, same cloud kill-chain, not yet detected:
 
 | Technique | Gap |
 |-----------|-----|

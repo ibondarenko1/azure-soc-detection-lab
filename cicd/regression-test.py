@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Detection regression: trigger atomic-aligned actions, assert each rule fires.
 
-Scoped on purpose: only the detections whose triggers need **Contributor on the lab RG**
+Scoped on purpose: only the detections whose triggers need **Contributor on the workspace resource group**
 (NSG modification, mass deletion). The CI identity therefore needs no role-assignment
-(User Access Administrator) or subscription-scope rights — least privilege for the pipeline.
+(User Access Administrator) or subscription-scope rights, least privilege for the pipeline.
 RBAC / failed-ops / non-owner triggers are validated manually (see trigger-playbook).
 
 For each covered rule: run the `az` trigger, poll the Sentinel incidents API for a new
@@ -11,7 +11,7 @@ incident, assert it fired within the rule's frequency + ingestion budget, clean 
 Exit non-zero on miss.
 
 Auth: existing `az` context (OIDC in CI, or `az login` locally).
-Env: AZURE_SUBSCRIPTION_ID, SENTINEL_RESOURCE_GROUP (lab RG), SENTINEL_WORKSPACE.
+Env: AZURE_SUBSCRIPTION_ID, SENTINEL_RESOURCE_GROUP (workspace RG), SENTINEL_WORKSPACE.
 """
 import os
 import sys

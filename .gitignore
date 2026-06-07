@@ -1,4 +1,4 @@
-# Unredacted screenshot staging — never commit raw captures with tenant/sub IDs or PII
+# Unredacted screenshot staging, never commit raw captures with tenant/sub IDs or PII
 screenshots/_raw/
 
 # OS / editor noise

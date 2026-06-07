@@ -1,4 +1,4 @@
-# SC200-02 — Network Security Group rule modified
+# SC200-02, Network Security Group rule modified
 
 | | |
 |---|---|
@@ -8,7 +8,7 @@
 | **Status** | Enabled |
 | **Data source** | `AzureActivity` |
 | **MITRE tactic** | Defense Evasion |
-| **MITRE technique** | [T1562 — Impair Defenses](https://attack.mitre.org/techniques/T1562/) |
+| **MITRE technique** | [T1562, Impair Defenses](https://attack.mitre.org/techniques/T1562/) |
 
 ## What it catches
 
@@ -32,7 +32,7 @@ See `simulations/trigger-playbook.md` → **SC200-02**. Summary: Portal → Netw
 
 ## Expected result
 
-**Confirmed:** incident **#5** (Medium) raised 2026-06-07 ~03:30 UTC — NSG `securityRules/write` + `/delete` on `nsg-sim`, caller `ievgen@summitrangeconsulting.com`.
+**Confirmed:** incident **#5** (Medium) raised 2026-06-07 ~03:30 UTC, NSG `securityRules/write` + `/delete` on `nsg-sim`, caller `ievgen@summitrangeconsulting.com`.
 
 ## Evidence
 
@@ -40,7 +40,7 @@ This detection's alert appears in the consolidated [SC200 alert queue](../screen
 
 ## Tuning notes
 
-**Threshold rationale.** No count threshold — any NSG `securityRules` write/delete is surfaced, because a single rule change can fully open an attack path.
+**Threshold rationale.** No count threshold, any NSG `securityRules` write/delete is surfaced, because a single rule change can fully open an attack path.
 
 **Known false positives.** Legitimate network change management; IaC applying NSG updates. Pair with a change-management allow-list, or scope to "rule allows source `*`/`Internet` on a management port" for higher fidelity.
 
@@ -48,4 +48,4 @@ This detection's alert appears in the consolidated [SC200 alert queue](../screen
 
 **Evasion.** An attacker can avoid NSG writes entirely by attaching resources to a permissive existing subnet, modifying a route table or Azure Firewall instead, or disabling NSG flow logs. Treat this as one signal among network-change detections, not a sole control.
 
-**Validation.** ATT&CK [T1562.007](https://attack.mitre.org/techniques/T1562/007/) — Disable or Modify Cloud Firewall; covered by [automated regression](../docs/04-validation.md).
+**Validation.** ATT&CK [T1562.007](https://attack.mitre.org/techniques/T1562/007/), Disable or Modify Cloud Firewall; covered by [automated regression](../docs/04-validation.md).

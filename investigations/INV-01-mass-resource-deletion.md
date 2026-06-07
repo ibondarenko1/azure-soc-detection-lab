@@ -1,11 +1,11 @@
-# INV-01 — Mass resource deletion (High)
+# INV-01, Mass resource deletion (High)
 
 > Investigation write-up for the incident raised by [SC200-04](../detections/SC200-04-mass-resource-deletion.md). Fields marked _(fill)_ are completed from the live incident.
 
 | | |
 |---|---|
 | **Incident ID** | #3 |
-| **Detection** | SC200-04 — Mass resource deletion |
+| **Detection** | SC200-04, Mass resource deletion |
 | **Severity** | High |
 | **MITRE** | Impact → [T1485 Data Destruction](https://attack.mitre.org/techniques/T1485/) |
 | **Status** | New |
@@ -23,7 +23,7 @@ The alert's **Related events / Query results** show the caller and the per-5-min
 
 ## 2. Scope
 
-Pivot in Advanced hunting to bound the activity — what else did this caller do around the deletion?
+Pivot in Advanced hunting to bound the activity, what else did this caller do around the deletion?
 
 ```kql
 let actor = "<caller>";
@@ -35,7 +35,7 @@ AzureActivity
 | order by Ops desc
 ```
 
-- Resources destroyed: _(fill — list/count)_
+- Resources destroyed: _(fill, list/count)_
 - Preceding activity (recon, role changes): _(fill)_
 - Other principals involved: _(fill)_
 
@@ -43,7 +43,7 @@ AzureActivity
 
 - **Determination:** _(true positive simulation / benign)_
 - **Blast radius:** _(fill)_
-- **Root cause:** benign simulated bulk delete of `rg-sim-delete` (lab) — in production this pattern = destructive impact.
+- **Root cause:** benign simulated bulk delete of `rg-sim-delete` (controlled benign action), in production this pattern = destructive impact.
 
 ## 4. Response
 

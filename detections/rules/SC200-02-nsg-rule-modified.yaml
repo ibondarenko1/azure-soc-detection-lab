@@ -28,9 +28,9 @@ entityMappings:
       - identifier: FullName
         columnName: Caller
 metadata:
-  atomic: "T1562.007 — Impair Defenses: Disable or Modify Cloud Firewall (NSG rule modification)."
+  atomic: "T1562.007, Impair Defenses: Disable or Modify Cloud Firewall (NSG rule modification)."
   requiredFields: [AzureActivity.OperationNameValue, AzureActivity.ActivityStatusValue, AzureActivity.Caller, AzureActivity.ResourceId]
   falsePositives:
     - "Legitimate network change management; IaC applying NSG updates."
-  severityRationale: "Any NSG change is review-worthy but not itself harmful — Medium. Escalate to High when the new rule allows a management port (22/3389/5985) from Any/Internet."
+  severityRationale: "Any NSG change is review-worthy but not itself harmful, Medium. Escalate to High when the new rule allows a management port (22/3389/5985) from Any/Internet."
   responseAction: "Confirm the change is authorized; if the rule opens a management port to the internet, revert and investigate the caller."

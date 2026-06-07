@@ -5,7 +5,7 @@ description: |
   by unexpected principals (attacker standing up compute/storage for mining, staging, or
   persistence).
   KNOWN GAP: as deployed, the logic matches ANY successful /write and does not enforce the
-  "non-owner" intent — see metadata.tuningGap and docs for the v2 fix.
+  "non-owner" intent, see metadata.tuningGap and docs for the v2 fix.
 severity: Medium
 requiredDataConnectors:
   - connectorId: AzureActivity
@@ -31,10 +31,10 @@ entityMappings:
       - identifier: FullName
         columnName: Caller
 metadata:
-  atomic: "T1098 — loose (resource-creation persistence by unexpected principal). No exact 1:1 atomic."
+  atomic: "T1098, loose (resource-creation persistence by unexpected principal). No exact 1:1 atomic."
   requiredFields: [AzureActivity.OperationNameValue, AzureActivity.ActivityStatusValue, AzureActivity.Caller, AzureActivity.ResourceProviderValue]
   falsePositives:
-    - "EVERY successful write in an active subscription — the as-deployed rule is too broad (documented gap)."
-  severityRationale: "Medium as intended; in practice the broad logic inflates volume — see tuningGap."
+    - "EVERY successful write in an active subscription, the as-deployed rule is too broad (documented gap)."
+  severityRationale: "Medium as intended; in practice the broad logic inflates volume, see tuningGap."
   responseAction: "Confirm the caller is an expected deployer; if not, investigate the new resource for abuse (mining/staging)."
   tuningGap: "Logic does not match the name. v2: filter ResourceProviderValue in (Compute,Storage,Web) AND Caller !in (owners allow-list). See detections/SC200-05 card."

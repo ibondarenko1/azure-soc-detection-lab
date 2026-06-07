@@ -1,6 +1,6 @@
 # Hunting queries
 
-Curated KQL from the lab's Advanced-hunting history (the SC-200 "Drill" series), kept as a reusable hunting library and used for investigation pivots. Export each as its own `.kql` file here.
+Curated KQL from this environment's Advanced-hunting history (the SC-200 "Drill" series), kept as a reusable hunting library and used for investigation pivots. Export each as its own `.kql` file here.
 
 Planned set (paste from query history):
 
