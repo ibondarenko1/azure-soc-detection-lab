@@ -1,0 +1,36 @@
+name: detection-regression
+
+# Proves the deployed rules still fire: trigger atomic-aligned actions, assert
+# matching incidents appear, clean up. Weekly + on-demand.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    environment: sentinel-prod
+    env:
+      SENTINEL_RESOURCE_GROUP: sc200-lab
+      SENTINEL_WORKSPACE: sc200-ws
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Run detection regression
+        env:
+          AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+        run: python cicd/regression-test.py
