@@ -1,6 +1,6 @@
 # SOAR playbook, Mass resource deletion auto-triage
 
-Closes the loop **detect → respond** on the highest-severity detection (SC200-04). When a
+Closes the loop **detect → respond** on the highest-severity detection (DET-004). When a
 Mass-resource-deletion incident is created, a Sentinel **automation rule** runs this
 **Logic App** playbook, which posts an **enrichment comment** on the incident with the
 suggested response (disable/quarantine the caller, lock the affected resource groups,
@@ -13,7 +13,7 @@ only for the incident trigger.
 
 ## Files
 - `azuredeploy.json`, Logic App + managed-identity Sentinel connection (ARM, no hardcoded IDs).
-- `automation-rule.json`, the automation rule body (placeholdered; binds the playbook to SC200-04).
+- `automation-rule.json`, the automation rule body (placeholdered; binds the playbook to DET-004).
 
 ## Deploy
 

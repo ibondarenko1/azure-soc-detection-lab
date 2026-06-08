@@ -1,4 +1,4 @@
-// SC200-06, LSASS credential access
+// DET-006, LSASS credential access
 // MITRE: Credential Access / T1003.001 OS Credential Dumping: LSASS Memory
 // Source: DeviceEvents (Defender for Endpoint via Defender XDR connector)
 // Frequency: every 15 min | Lookback: 1h

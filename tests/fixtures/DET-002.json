@@ -1,5 +1,5 @@
 {
-  "_comment": "SC200-02 NSG securityRules write/delete, Success.",
+  "_comment": "DET-002 NSG securityRules write/delete, Success.",
   "fires": [
     {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/networkSecurityGroups/securityRules/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/networkSecurityGroups/nsg1/securityRules/open-rdp"}
   ],

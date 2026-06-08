@@ -24,8 +24,8 @@ API_INC = "2023-11-01"
 LOC = "eastus"
 # rule title -> max minutes to wait (queryFrequency + ingestion budget)
 EXPECT = {
-    "[SC200] Network Security Group rule modified": 45,
-    "[SC200] Mass resource deletion": 35,
+    "[DET] Network Security Group rule modified": 45,
+    "[DET] Mass resource deletion": 35,
 }
 
 
@@ -38,7 +38,7 @@ def az(*args, check=True):
 
 def trigger(rg):
     print("== triggers (scoped to %s, Contributor only) ==" % rg)
-    # SC200-02 NSG rule create + delete
+    # DET-002 NSG rule create + delete
     az("network", "nsg", "create", "-g", rg, "-n", "nsg-reg", "-l", LOC, "--only-show-errors", "-o", "none")
     az("network", "nsg", "rule", "create", "-g", rg, "--nsg-name", "nsg-reg", "-n", "reg-open",
        "--priority", "1000", "--direction", "Inbound", "--access", "Allow", "--protocol", "Tcp",
@@ -46,7 +46,7 @@ def trigger(rg):
        "--destination-address-prefixes", "*", "--destination-port-ranges", "3389", "--only-show-errors", "-o", "none")
     az("network", "nsg", "rule", "delete", "-g", rg, "--nsg-name", "nsg-reg", "-n", "reg-open", "--only-show-errors", "-o", "none")
     print("  NSG rule create+delete: ok")
-    # SC200-04 mass delete: create 5 public IPs then delete them (>=5 delete ops / 5m)
+    # DET-004 mass delete: create 5 public IPs then delete them (>=5 delete ops / 5m)
     for i in range(1, 6):
         az("network", "public-ip", "create", "-g", rg, "-n", f"pip-reg-{i}", "--sku", "Standard",
            "--allocation-method", "Static", "-l", LOC, "--only-show-errors", "-o", "none")

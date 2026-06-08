@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "metadata": {
-    "comments": "SOAR playbook for SC200-04 (Mass resource deletion). On the incident, a managed-identity Logic App tags it 'auto-triaged' and posts an enrichment comment. No external connector / no stored secret."
+    "comments": "SOAR playbook for DET-004 (Mass resource deletion). On the incident, a managed-identity Logic App tags it 'auto-triaged' and posts an enrichment comment. No external connector / no stored secret."
   },
   "parameters": {
     "playbookName": { "type": "string", "defaultValue": "pb-mass-deletion-response" },
@@ -60,7 +60,7 @@
                 "uri": "https://management.azure.com@{triggerBody()?['object']?['id']}/comments/@{guid()}?api-version=2023-11-01",
                 "body": {
                   "properties": {
-                    "message": "Auto-triage (SC200-04 Mass resource deletion): destructive-impact pattern detected. Suggested response, disable/quarantine the caller, lock affected resource groups (CanNotDelete), restore from backup, hunt initial access. See investigations/INV-01."
+                    "message": "Auto-triage (DET-004 Mass resource deletion): destructive-impact pattern detected. Suggested response, disable/quarantine the caller, lock affected resource groups (CanNotDelete), restore from backup, hunt initial access. See investigations/INV-01."
                   }
                 },
                 "authentication": { "type": "ManagedServiceIdentity", "audience": "https://management.azure.com" }

@@ -1,8 +1,8 @@
-# SC200-05, Suspicious resource deployment by non-owner
+# DET-005, Suspicious resource deployment by non-owner
 
 | | |
 |---|---|
-| **ID** | SC200-05 |
+| **ID** | DET-005 |
 | **Severity** | Medium |
 | **Rule type** | Scheduled analytics rule |
 | **Status** | Enabled |
@@ -30,7 +30,7 @@ AzureActivity
 
 ## How to trigger (simulation)
 
-See `simulations/trigger-playbook.md` → **SC200-05**. Summary: from a **non-owner** account (Contributor or guest), deploy a resource (e.g. a storage account).
+See `simulations/trigger-playbook.md` → **DET-005**. Summary: from a **non-owner** account (Contributor or guest), deploy a resource (e.g. a storage account).
 
 ## Expected result
 
@@ -38,7 +38,7 @@ Rule runs hourly. Incident **#1** (Medium) exists from an earlier run; it re-fir
 
 ## Evidence
 
-This detection's alerts appear in the consolidated [SC200 alert queue](../screenshots/05-incidents-queue-populated.png) (Persistence / T1098).
+This detection's alerts appear in the consolidated [consolidated alert queue](../screenshots/05-incidents-queue-populated.png) (Persistence / T1098).
 
 ## Tuning notes
 
@@ -58,6 +58,6 @@ AzureActivity
 - Maintain the `owners` allow-list as the core of fidelity; everyone legitimately deploying must be enumerated.
 - Resource type matters, a new `Microsoft.Compute` (VM) by a non-owner is higher signal than storage.
 
-**Evasion.** Even the v2 logic is evaded by an attacker who first adds their principal to the `owners` set (→ chain with [SC200-03](SC200-03-rbac-role-assignment-changes.md)), or deploys a resource type outside the watch-list.
+**Evasion.** Even the v2 logic is evaded by an attacker who first adds their principal to the `owners` set (→ chain with [DET-003](DET-003-rbac-role-assignment-changes.md)), or deploys a resource type outside the watch-list.
 
 **Validation.** ATT&CK [T1098](https://attack.mitre.org/techniques/T1098/), loose mapping (resource-creation persistence); validated manually, not in automated regression. See [docs/04-validation.md](../docs/04-validation.md).

@@ -1,8 +1,8 @@
-# SC200-06, LSASS credential access
+# DET-006, LSASS credential access
 
 | | |
 |---|---|
-| **ID** | SC200-06 |
+| **ID** | DET-006 |
 | **Severity** | **High** |
 | **Rule type** | Scheduled analytics rule |
 | **Status** | Authored, live witness pending (see below) |

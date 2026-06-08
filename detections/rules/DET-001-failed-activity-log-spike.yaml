@@ -1,5 +1,5 @@
 id: 891b7bed-9a2a-4715-835b-e1ad65b33570
-name: "[SC200] Failed Activity Log operations spike"
+name: "[DET] Failed Activity Log operations spike"
 description: |
   A single caller produced a burst of failed Azure control-plane operations in a short
   window, an early signal of permission probing / discovery by a compromised principal.

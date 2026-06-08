@@ -4,7 +4,7 @@ status: experimental
 description: |
   Detects creation, modification, or deletion of an Azure Network Security Group
   security rule. Loosening an NSG (e.g. opening a management port to the internet)
-  weakens network defenses. Portable Sigma equivalent of SC200-02.
+  weakens network defenses. Portable Sigma equivalent of DET-002.
 references:
   - https://attack.mitre.org/techniques/T1562/007/
 author: Ievgen Bondarenko

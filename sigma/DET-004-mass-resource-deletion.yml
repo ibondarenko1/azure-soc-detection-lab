@@ -1,5 +1,5 @@
 # Sigma correlation rule (modern Sigma): a base detection + an event_count correlation.
-# Portable equivalent of SC200-04 (mass deletion threshold).
+# Portable equivalent of DET-004 (mass deletion threshold).
 title: Azure Resource Deletion
 name: azure_resource_deletion
 id: 9b3e7c41-2a8d-4f60-8e15-3c6d4b2a7e03

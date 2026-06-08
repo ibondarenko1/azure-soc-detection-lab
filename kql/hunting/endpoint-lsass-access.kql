@@ -1,4 +1,4 @@
-// Companion hunt for SC200-06, LSASS credential access
+// Companion hunt for DET-006, LSASS credential access
 // Run in Defender advanced hunting. Widens the deployed rule with command-line context
 // so dump-specific patterns (procdump, comsvcs.dll MiniDump, taskmgr create-dump) are visible.
 // MITRE: T1003.001 OS Credential Dumping: LSASS Memory

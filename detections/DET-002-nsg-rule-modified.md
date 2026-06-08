@@ -1,8 +1,8 @@
-# SC200-02, Network Security Group rule modified
+# DET-002, Network Security Group rule modified
 
 | | |
 |---|---|
-| **ID** | SC200-02 |
+| **ID** | DET-002 |
 | **Severity** | Medium |
 | **Rule type** | Scheduled analytics rule |
 | **Status** | Enabled |
@@ -28,7 +28,7 @@ AzureActivity
 
 ## How to trigger (simulation)
 
-See `simulations/trigger-playbook.md` → **SC200-02**. Summary: Portal → Network security groups → Inbound security rules → **Add** a rule (e.g. allow 3389 from Any) → Save → then **Delete** that rule.
+See `simulations/trigger-playbook.md` → **DET-002**. Summary: Portal → Network security groups → Inbound security rules → **Add** a rule (e.g. allow 3389 from Any) → Save → then **Delete** that rule.
 
 ## Expected result
 
@@ -36,7 +36,7 @@ See `simulations/trigger-playbook.md` → **SC200-02**. Summary: Portal → Netw
 
 ## Evidence
 
-This detection's alert appears in the consolidated [SC200 alert queue](../screenshots/05-incidents-queue-populated.png) (Defense Evasion / T1562).
+This detection's alert appears in the consolidated [consolidated alert queue](../screenshots/05-incidents-queue-populated.png) (Defense Evasion / T1562).
 
 ## Tuning notes
 

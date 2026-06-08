@@ -1,5 +1,5 @@
 id: 139a66be-c7a6-4518-9404-b811caab736d
-name: "[SC200] Mass resource deletion"
+name: "[DET] Mass resource deletion"
 description: |
   A single caller deleted many resources in a short window, the signature of destructive
   impact (ransomware-style wipe, insider teardown, or a compromised principal).

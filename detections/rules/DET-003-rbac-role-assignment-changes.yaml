@@ -1,5 +1,5 @@
 id: 058e790c-7139-4857-b245-a9f6c70c1bfb
-name: "[SC200] RBAC role assignment changes"
+name: "[DET] RBAC role assignment changes"
 description: |
   An Azure RBAC role assignment was created or removed. Granting a role (especially
   Owner/Contributor/User Access Administrator) to a new principal is a primary

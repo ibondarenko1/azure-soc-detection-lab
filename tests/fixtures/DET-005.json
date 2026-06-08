@@ -1,5 +1,5 @@
 {
-  "_comment": "SC200-05 any successful /write (as-deployed broad logic).",
+  "_comment": "DET-005 any successful /write (as-deployed broad logic).",
   "fires": [
     {"ActivityStatusValue": "Success", "Caller": "sp-unknown@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/write", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg1"}
   ],

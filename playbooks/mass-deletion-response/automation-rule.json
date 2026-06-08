@@ -1,7 +1,7 @@
 {
   "_comment": "Sentinel automation rule body. PUT to .../providers/Microsoft.SecurityInsights/automationRules/<new-guid>?api-version=2025-09-01 after substituting the <...> placeholders (see ../README.md). Placeholders keep the subscription/tenant identifiers out of the public repo.",
   "properties": {
-    "displayName": "SC200-04 Mass deletion -> auto-triage playbook",
+    "displayName": "DET-004 Mass deletion -> auto-triage playbook",
     "order": 1,
     "triggeringLogic": {
       "isEnabled": true,

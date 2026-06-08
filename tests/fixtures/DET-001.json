@@ -1,5 +1,5 @@
 {
-  "_comment": "SC200-01 failed-ops spike: >=8 failures per 5m bin per caller.",
+  "_comment": "DET-001 failed-ops spike: >=8 failures per 5m bin per caller.",
   "fires": [
     {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/p1"},
     {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/p2"},

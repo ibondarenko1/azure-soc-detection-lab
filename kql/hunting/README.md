@@ -1,6 +1,6 @@
 # Hunting queries
 
-Curated KQL from this environment's Advanced-hunting history (the SC-200 "Drill" series), kept as a reusable hunting library and used for investigation pivots. Export each as its own `.kql` file here.
+Curated KQL from this environment's Advanced-hunting history (the advanced-hunting drill set), kept as a reusable hunting library and used for investigation pivots. Export each as its own `.kql` file here.
 
 ## Endpoint and vulnerability management (in repo)
 
@@ -9,7 +9,7 @@ workspace, so these are hunts rather than deployed rules. Context: [docs/07](../
 
 | File | What it hunts | Source |
 |------|---------------|--------|
-| [`endpoint-lsass-access.kql`](endpoint-lsass-access.kql) | LSASS handle-opens with command-line context (companion to SC200-06) | DeviceEvents |
+| [`endpoint-lsass-access.kql`](endpoint-lsass-access.kql) | LSASS handle-opens with command-line context (companion to DET-006) | DeviceEvents |
 | [`endpoint-critical-cve-exposed-server.kql`](endpoint-critical-cve-exposed-server.kql) | High-CVSS vulnerabilities on server-role hosts | DeviceTvmSoftwareVulnerabilities ⨝ DeviceInfo |
 | [`endpoint-failed-security-baseline.kql`](endpoint-failed-security-baseline.kql) | Failed secure-configuration assessments (hardening feedback) | DeviceTvmSecureConfigurationAssessment |
 | [`endpoint-vulnerable-asset-under-alert.kql`](endpoint-vulnerable-asset-under-alert.kql) | Vulnerable assets correlated with an active alert | AlertEvidence ⨝ DeviceTvmSoftwareVulnerabilities |
