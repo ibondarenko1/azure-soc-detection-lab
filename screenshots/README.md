@@ -16,7 +16,7 @@ Visual evidence for these detections. Full unredacted captures are staged in `_r
 
 The crop removes the browser URL bar (which carried the tenant ID). One item remains visible in the alert-detail shots (`06-inc-03`, `06-inc-04`):
 
-- [ ] **Caller email** `ievgen@summitrangeconsulting.com` appears in the Query-results "Caller" column. It is your own address/domain, blur it if you prefer the repo not to surface it.
+- [ ] **Caller email** `ievgen@<redacted-tenant>` appears in the Query-results "Caller" column. It is your own address/domain, blur it if you prefer the repo not to surface it.
 
 No subscription IDs are visible in the captured frames (`DeletedResources` is truncated to `[""]`).
 

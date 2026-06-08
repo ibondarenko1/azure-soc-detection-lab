@@ -13,7 +13,7 @@
 ## 1. Triage
 
 - **What fired:** a single caller deleted ≥5 distinct resources within one hour.
-- **Caller:** `ievgen@summitrangeconsulting.com` (redacted in screenshots)
+- **Caller:** `ievgen@<redacted-tenant>` (redacted in screenshots)
 - **Source IP:** _(captured in incident screenshot)_
 - **Time window:** simulated deletes 2026-06-07 ~03:16–03:26 UTC; incident raised 03:29 UTC
 

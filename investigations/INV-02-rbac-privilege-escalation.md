@@ -13,7 +13,7 @@
 ## 1. Triage
 
 - **What fired:** a new RBAC role assignment was created.
-- **Caller (who granted):** `ievgen@summitrangeconsulting.com`
+- **Caller (who granted):** `ievgen@<redacted-tenant>`
 - **Principal granted / role / scope:** self → `Reader` → `rg-soc-sim` (plus Contributor → `sp-soc-sim`); both reverted within minutes
 - **Source IP / time:** 2026-06-07 ~03:16 UTC; incident raised 03:29 UTC
 

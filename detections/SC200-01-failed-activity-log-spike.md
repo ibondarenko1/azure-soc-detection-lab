@@ -32,7 +32,7 @@ See `simulations/trigger-playbook.md` → **SC200-01**. Summary: from a low-priv
 
 ## Expected result
 
-**Confirmed:** incident **#4** (Medium) raised 2026-06-07 ~03:29 UTC, caller `ievgen@summitrangeconsulting.com`, 12 failed `publicIPAddresses/write` operations in one 5-minute bin.
+**Confirmed:** incident **#4** (Medium) raised 2026-06-07 ~03:29 UTC, caller `ievgen@<redacted-tenant>`, 12 failed `publicIPAddresses/write` operations in one 5-minute bin.
 
 ## Evidence
 

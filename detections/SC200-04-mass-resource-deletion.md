@@ -33,7 +33,7 @@ See `simulations/trigger-playbook.md` → **SC200-04**. Summary: create resource
 
 ## Expected result
 
-**Confirmed:** incident **#3** (High) raised 2026-06-07 ~03:29 UTC, 5× `publicIPAddresses/delete` + resource-group delete on `rg-sim-delete`, caller `ievgen@summitrangeconsulting.com`.
+**Confirmed:** incident **#3** (High) raised 2026-06-07 ~03:29 UTC, 5× `publicIPAddresses/delete` + resource-group delete on `rg-sim-delete`, caller `ievgen@<redacted-tenant>`.
 
 ## Evidence
 

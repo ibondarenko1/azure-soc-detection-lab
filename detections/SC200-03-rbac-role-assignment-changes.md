@@ -32,7 +32,7 @@ See `simulations/trigger-playbook.md` → **SC200-03**. Summary: Subscription/RG
 
 ## Expected result
 
-**Confirmed:** incident **#2** (Medium) raised 2026-06-07 ~03:29 UTC, `roleAssignments/write` (Reader) + delete on scope `rg-soc-sim`, caller `ievgen@summitrangeconsulting.com`.
+**Confirmed:** incident **#2** (Medium) raised 2026-06-07 ~03:29 UTC, `roleAssignments/write` (Reader) + delete on scope `rg-soc-sim`, caller `ievgen@<redacted-tenant>`.
 
 ## Evidence
 

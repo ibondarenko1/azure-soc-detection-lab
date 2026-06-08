@@ -32,7 +32,7 @@ See `simulations/trigger-playbook.md` → **SC200-02**. Summary: Portal → Netw
 
 ## Expected result
 
-**Confirmed:** incident **#5** (Medium) raised 2026-06-07 ~03:30 UTC, NSG `securityRules/write` + `/delete` on `nsg-sim`, caller `ievgen@summitrangeconsulting.com`.
+**Confirmed:** incident **#5** (Medium) raised 2026-06-07 ~03:30 UTC, NSG `securityRules/write` + `/delete` on `nsg-sim`, caller `ievgen@<redacted-tenant>`.
 
 ## Evidence
 
