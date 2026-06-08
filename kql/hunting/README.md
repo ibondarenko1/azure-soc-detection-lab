@@ -2,6 +2,20 @@
 
 Curated KQL from this environment's Advanced-hunting history (the SC-200 "Drill" series), kept as a reusable hunting library and used for investigation pivots. Export each as its own `.kql` file here.
 
+## Endpoint and vulnerability management (in repo)
+
+Run these in Defender advanced hunting. The `DeviceTvm*` tables live there, not in the Sentinel
+workspace, so these are hunts rather than deployed rules. Context: [docs/07](../../docs/07-endpoint-vulnerability-management.md).
+
+| File | What it hunts | Source |
+|------|---------------|--------|
+| [`endpoint-lsass-access.kql`](endpoint-lsass-access.kql) | LSASS handle-opens with command-line context (companion to SC200-06) | DeviceEvents |
+| [`endpoint-critical-cve-exposed-server.kql`](endpoint-critical-cve-exposed-server.kql) | High-CVSS vulnerabilities on server-role hosts | DeviceTvmSoftwareVulnerabilities ⨝ DeviceInfo |
+| [`endpoint-failed-security-baseline.kql`](endpoint-failed-security-baseline.kql) | Failed secure-configuration assessments (hardening feedback) | DeviceTvmSecureConfigurationAssessment |
+| [`endpoint-vulnerable-asset-under-alert.kql`](endpoint-vulnerable-asset-under-alert.kql) | Vulnerable assets correlated with an active alert | AlertEvidence ⨝ DeviceTvmSoftwareVulnerabilities |
+
+## Email and phishing (planned)
+
 Planned set (paste from query history):
 
 | File | What it hunts | Source |

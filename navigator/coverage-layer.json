@@ -2,7 +2,7 @@
   "name": "Azure Sentinel Detection Engineering Coverage",
   "versions": { "attack": "15", "navigator": "4.9.1", "layer": "4.5" },
   "domain": "enterprise-attack",
-  "description": "Coverage of the 5 SC200 AzureActivity detections, with honest gaps in the same tactics. Green = covered by a deployed rule; red = known gap.",
+  "description": "Coverage of the SC200 detections (5 AzureActivity control-plane + 1 Defender for Endpoint), with honest gaps in the same tactics. Green = covered by a deployed rule; red = known gap.",
   "sorting": 0,
   "hideDisabled": false,
   "techniques": [
@@ -12,6 +12,8 @@
     { "techniqueID": "T1098.003", "score": 100, "color": "#2da44e", "comment": "SC200-03 RBAC role assignment changes" },
     { "techniqueID": "T1098", "score": 100, "color": "#2da44e", "comment": "SC200-03 (T1098.003) + SC200-05 non-owner deployment (loose)" },
     { "techniqueID": "T1485", "score": 100, "color": "#2da44e", "comment": "SC200-04 Mass resource deletion" },
+    { "techniqueID": "T1003.001", "score": 100, "color": "#2da44e", "comment": "SC200-06 LSASS credential access (Defender for Endpoint DeviceEvents)" },
+    { "techniqueID": "T1003", "score": 100, "color": "#2da44e", "comment": "Covered via sub-technique T1003.001 (SC200-06)" },
 
     { "techniqueID": "T1078", "score": 25, "color": "#e85d4c", "comment": "GAP, Valid Accounts: no sign-in / impossible-travel anomaly detection yet" },
     { "techniqueID": "T1110", "score": 25, "color": "#e85d4c", "comment": "GAP, Brute Force: no auth-failure correlation on sign-ins" },
@@ -25,7 +27,7 @@
     { "label": "Known gap (not yet covered)", "color": "#e85d4c" }
   ],
   "metadata": [
-    { "name": "rules", "value": "5 scheduled analytics rules on AzureActivity" },
+    { "name": "rules", "value": "6 scheduled analytics rules (5 AzureActivity + 1 Defender for Endpoint)" },
     { "name": "repo", "value": "github.com/ibondarenko1/azure-sentinel-detection-engineering" }
   ],
   "showTacticRowBackground": true,

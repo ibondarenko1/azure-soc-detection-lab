@@ -1,6 +1,6 @@
 # Azure Sentinel Detection Engineering
 
-Detection engineering on a live Microsoft Sentinel and Defender XDR environment I operate. Five custom analytics rules watch Azure control-plane activity, each mapped to MITRE ATT&CK and proven end to end: a controlled benign action triggers the rule, the rule raises an incident, and the incident gets investigated and documented.
+Detection engineering on a live Microsoft Sentinel and Defender XDR environment I operate. Five custom analytics rules watch Azure control-plane activity, each mapped to MITRE ATT&CK and proven end to end: a controlled benign action triggers the rule, the rule raises an incident, and the incident gets investigated and documented. A sixth rule extends the same pipeline to the endpoint plane (Defender for Endpoint), with Defender Vulnerability Management feeding a hunting library.
 
 ![Telemetry, rules, incidents, and the CI/CD pipeline](screenshots/demo.gif)
 
@@ -41,7 +41,7 @@ flowchart LR
   A --> W[Log Analytics workspace<br/>sc200-ws]
   B --> W
   C --> W
-  W --> R[5x SC200 scheduled<br/>analytics rules]
+  W --> R[6x SC200 scheduled<br/>analytics rules]
   R --> I[Incidents]
   I --> V[Investigation<br/>+ MITRE mapping]
 ```
@@ -57,6 +57,7 @@ flowchart LR
 | [SC200-03](detections/SC200-03-rbac-role-assignment-changes.md) | RBAC role assignment changes | Medium | Privilege Escalation / Persistence | [T1098](https://attack.mitre.org/techniques/T1098/) Account Manipulation |
 | [SC200-04](detections/SC200-04-mass-resource-deletion.md) | Mass resource deletion | **High** | Impact | [T1485](https://attack.mitre.org/techniques/T1485/) Data Destruction |
 | [SC200-05](detections/SC200-05-suspicious-deployment-non-owner.md) | Suspicious resource deployment by non-owner | Medium | Persistence | [T1098](https://attack.mitre.org/techniques/T1098/) Account Manipulation |
+| [SC200-06](detections/SC200-06-lsass-credential-access.md) | LSASS credential access (endpoint, witness pending) | **High** | Credential Access | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) LSASS Memory |
 
 ![Detection rules overview](screenshots/02-detection-rules-overview.png)
 
@@ -88,6 +89,10 @@ The gaps are not static text. Each one is a live [`detection-gap` issue](../../i
 
 The highest-severity detection closes the loop from detect to respond. A Sentinel automation rule runs a [Logic App playbook](playbooks/mass-deletion-response) on every SC200-04 (mass deletion) incident: it posts an enrichment comment with the recommended containment (disable the caller, lock the resource groups, restore, hunt). The playbook authenticates with its own **managed identity** straight to the ARM API, with no secrets and no external connector.
 
+## Endpoint and vulnerability management
+
+The detections start on the Azure control plane; this phase adds the endpoint plane. A Defender for Endpoint sensor on a Windows server feeds the same workspace, so the Detection-as-Code pipeline deploys an endpoint rule, [SC200-06 LSASS credential access](detections/SC200-06-lsass-credential-access.md), next to the control-plane rules. Defender Vulnerability Management adds a second input: a [hunting library](kql/hunting) that surfaces critical CVEs on servers, failed secure-configuration baselines, and vulnerable assets under active alert. The `DeviceTvm*` tables live only in Defender advanced hunting, so those correlations are hunts, not deployed rules, and the repo says where each query actually runs. Architecture and data flow: [docs/07](docs/07-endpoint-vulnerability-management.md).
+
 ## Repository layout
 
 ```
@@ -102,13 +107,13 @@ investigations/   end-to-end incident write-ups
 simulations/      exact atomic-aligned trigger steps
 navigator/        ATT&CK coverage layer (covered + gaps)
 playbooks/        SOAR response (Logic App + automation rule)
-docs/             architecture, methodology, cicd, validation, data-dictionary
+docs/             architecture, methodology, cicd, validation, data-dictionary, endpoint+TVM
 screenshots/      visual evidence
 ```
 
 ## Skills demonstrated
 
-KQL · Microsoft Sentinel scheduled analytics rules · Microsoft Defender XDR · Detection-as-Code (GitHub Actions, OIDC) · SOAR (Logic Apps automation rules) · Sigma (vendor-neutral) · Atomic Red Team validation · incident triage and investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
+KQL · Microsoft Sentinel scheduled analytics rules · Microsoft Defender XDR · Microsoft Defender for Endpoint · Defender Vulnerability Management (TVM) · advanced hunting (Device tables) · Detection-as-Code (GitHub Actions, OIDC) · SOAR (Logic Apps automation rules) · Sigma (vendor-neutral) · Atomic Red Team validation · incident triage and investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
 
 ## Disclaimer
 

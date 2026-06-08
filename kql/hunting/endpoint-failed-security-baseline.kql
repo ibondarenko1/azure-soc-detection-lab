@@ -1,0 +1,8 @@
+// Failed secure-configuration assessments (hardening feedback)
+// Run in Defender advanced hunting. Each failed check is a misconfiguration a detection should
+// not have to compensate for. The close-the-loop signal for hardening.
+DeviceTvmSecureConfigurationAssessment
+| where IsApplicable == 1 and IsCompliant == 0
+| summarize FailedChecks = make_set(ConfigurationName, 50), Count = dcount(ConfigurationId)
+    by DeviceName, ConfigurationCategory
+| sort by Count desc

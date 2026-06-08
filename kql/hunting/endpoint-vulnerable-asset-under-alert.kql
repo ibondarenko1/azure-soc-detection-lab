@@ -1,0 +1,14 @@
+// Vulnerable asset correlated with an active alert (prioritization)
+// Run in Defender advanced hunting. A weakness matters more on a host that is also under an
+// active alert, so a vulnerable asset under attack rises above a flat CVE list.
+let alerted =
+    AlertEvidence
+    | where Timestamp > ago(7d)
+    | where isnotempty(DeviceId)
+    | summarize Alerts = dcount(AlertId), LastAlert = max(Timestamp) by DeviceId;
+DeviceTvmSoftwareVulnerabilities
+| where CvssScore >= 7.0
+| summarize MaxCvss = max(CvssScore), Cves = make_set(CveId, 50) by DeviceId, DeviceName
+| join kind=inner alerted on DeviceId
+| project DeviceName, MaxCvss, VulnCount = array_length(Cves), Alerts, LastAlert, Cves
+| sort by Alerts desc, MaxCvss desc

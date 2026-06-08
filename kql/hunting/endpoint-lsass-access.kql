@@ -1,0 +1,13 @@
+// Companion hunt for SC200-06, LSASS credential access
+// Run in Defender advanced hunting. Widens the deployed rule with command-line context
+// so dump-specific patterns (procdump, comsvcs.dll MiniDump, taskmgr create-dump) are visible.
+// MITRE: T1003.001 OS Credential Dumping: LSASS Memory
+DeviceEvents
+| where Timestamp > ago(7d)
+| where ActionType == "OpenProcessApiCall"
+| where FileName =~ "lsass.exe"
+| where InitiatingProcessFileName !in~ ("MsMpEng.exe", "MsSense.exe", "SenseIR.exe")
+| project Timestamp, DeviceName, InitiatingProcessAccountName,
+          InitiatingProcessFileName, InitiatingProcessCommandLine
+| extend DumpPattern = InitiatingProcessCommandLine has_any ("MiniDump", "comsvcs", "-ma ", "procdump")
+| sort by Timestamp desc
