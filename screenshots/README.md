@@ -2,23 +2,30 @@
 
 Visual evidence for these detections. Full unredacted captures are staged in `_raw/` (git-ignored); the cropped copies here (browser chrome removed) are the ones referenced by the docs.
 
-## Captured (v1)
+## Captured
 
 | File | Shows |
 |------|-------|
 | `01-telemetry-schema.png` | Advanced hunting, live `sc200-ws` schema + query editor/history |
-| `02-detection-rules-overview.png` | Detection Rules, 5 `[DET]` rules, Enabled, with MITRE tactics/techniques |
-| `05-incidents-queue-populated.png` | Alert queue, the `[DET]` detections fired (Mass deletion High, RBAC, Failed-ops, NSG) |
+| `02-detection-rules-overview.png` | Sentinel Analytics, 6 `[DET]` rules Enabled (incl. `[DET] LSASS credential access`, High), MITRE tactics/techniques |
+| `05-incidents-queue-populated.png` | Incidents queue, endpoint incident on `soc-sensor-01` (Antivirus / Defender for Endpoint) |
 | `06-inc-03-overview.png` | RBAC role assignment alert detail |
 | `06-inc-04-overview.png` | Mass resource deletion (High) alert detail, caller + delete counts 8/5 over threshold |
+| `07-tvm-weaknesses.png` | Defender Vulnerability Management, OpenSSL critical CVEs (CVSS 9.8), 3 critical / 19 in org |
+| `08-device-active.png` | Device inventory, `soc-sensor-01` Active and Onboarded (Windows 11 sensor) |
+| `09-secure-score.png` | Microsoft Secure Score posture for the tenant |
+| `11-sentinel-overview.png` | Microsoft Sentinel overview, incident queue + analytics-rule state |
 
-## Redaction note (review before publishing)
+## Redaction
 
-The crop removes the browser URL bar (which carried the tenant ID). One item remains visible in the alert-detail shots (`06-inc-03`, `06-inc-04`):
+The top crop removes the browser URL bar (which carried the tenant ID). The portal captures
+(`02`, `05`, `07`, `08`, `09`, `11`) additionally have the top-right account chip blacked out, which
+carried the UPN, the organization name, and the profile photo. Subscription IDs are not visible in
+any captured frame.
 
-- [ ] **Caller email** `ievgen@<redacted-tenant>` appears in the Query-results "Caller" column. It is your own address/domain, blur it if you prefer the repo not to surface it.
+Still review before publishing:
 
-No subscription IDs are visible in the captured frames (`DeletedResources` is truncated to `[""]`).
+- [ ] **Caller email** `ievgen@<redacted-tenant>` in the older alert-detail shots (`06-inc-03`, `06-inc-04`) Query-results "Caller" column; blur if you prefer it not surfaced.
 
 ## Optional / not in v1
 

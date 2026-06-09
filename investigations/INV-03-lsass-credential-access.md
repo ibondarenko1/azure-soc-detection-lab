@@ -21,7 +21,7 @@
 - **Host:** `soc-sensor-01`, reporting Active in Device Inventory.
 - **Account / process tree:** `NT AUTHORITY\SYSTEM`, `cmd.exe → powershell.exe -ExecutionPolicy Unrestricted -File <script>.ps1` (the management channel used to drive the controlled test).
 
-_Incident #65 overview and the correlated MDATP alerts are captured in the Sentinel incident screenshot (`screenshots/10-inc-06-lsass.png`)._
+The prevention raised a Defender incident on `soc-sensor-01` (Endpoint / Antivirus), shown in the [incidents queue](../screenshots/05-incidents-queue-populated.png), and DET-006 raised the correlated Sentinel incident; the [DET-006 rule](../screenshots/02-detection-rules-overview.png) and the [Sentinel state](../screenshots/11-sentinel-overview.png) are captured alongside.
 
 ## 2. What generated the activity
 
