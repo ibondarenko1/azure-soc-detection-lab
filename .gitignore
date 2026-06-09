@@ -8,3 +8,4 @@ desktop.ini
 *.swp
 .vscode/
 .idea/
+validation/.harness-state
