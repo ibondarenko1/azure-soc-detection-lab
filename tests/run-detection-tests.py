@@ -76,6 +76,13 @@ def main():
         if not os.path.exists(fx_path):
             print(f"SKIP {rule['name']}, no fixture"); continue
         fx = json.load(open(fx_path, encoding="utf-8"))
+        # Rules using allow-lists reference Sentinel watchlists via _GetWatchlist(); stub it from
+        # the fixture's "watchlist" values so the rule's real query runs unchanged in the emulator.
+        wl = fx.get("watchlist")
+        if wl is not None:
+            vals = ", ".join('"' + str(v).replace("\\", "\\\\").replace('"', '\\"') + '"' for v in wl)
+            mgmt(f".create-or-alter function _GetWatchlist(WatchlistAlias:string) "
+                 f"{{ datatable(SearchKey:string)[{vals}] }}")
         for scenario, should_fire in (("fires", True), ("silent", False)):
             events = fx.get(scenario, [])
             if not events:

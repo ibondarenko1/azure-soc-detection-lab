@@ -1,11 +1,11 @@
 id: 3b8b8410-f071-4ad2-b684-f0b08c0b25fb
 name: "[DET] Suspicious resource deployment by non-owner"
 description: |
-  A successful control-plane write (resource deployment). Intended to surface deployments
-  by unexpected principals (attacker standing up compute/storage for mining, staging, or
-  persistence).
-  KNOWN GAP: as deployed, the logic matches ANY successful /write and does not enforce the
-  "non-owner" intent, see metadata.tuningGap and docs for the v2 fix.
+  A successful control-plane deployment (Compute / Storage / Web write) by a principal that is
+  not on the deploy-owner allow-list. Attackers who gain a foothold stand up compute (mining),
+  storage (staging), or web/functions (persistence) under an account that should not be deploying.
+  v2: the "non-owner" intent is now enforced via the soc-deploy-owners watchlist, and the rule is
+  scoped to the resource providers that carry that risk, instead of firing on any /write.
 severity: Medium
 requiredDataConnectors:
   - connectorId: AzureActivity
@@ -20,21 +20,33 @@ tactics:
 relevantTechniques:
   - T1098
 query: |
+  // soc-deploy-owners watchlist: SearchKey = UPN/objectId of every principal allowed to deploy.
+  // Maintained in the tenant (no identities committed to the repo).
+  let owners = _GetWatchlist('soc-deploy-owners') | project SearchKey;
+  let watchedProviders = dynamic(["Microsoft.Compute", "Microsoft.Storage", "Microsoft.Web"]);
   AzureActivity
   | where TimeGenerated > ago(1h)
   | where OperationNameValue endswith "/write"
   | where ActivityStatusValue == "Success"
-  | project TimeGenerated, Caller, OperationNameValue, ResourceProviderValue, ResourceId, ActivityStatusValue
+  | where ResourceProviderValue in~ (watchedProviders)
+  | where Caller !in~ (owners)
+  | extend CallerIp = tostring(parse_json(tostring(Properties_d.httpRequest)).clientIpAddress)
+  | project TimeGenerated, Caller, CallerIp, OperationNameValue, ResourceProviderValue, ResourceId
 entityMappings:
   - entityType: Account
     fieldMappings:
       - identifier: FullName
         columnName: Caller
+  - entityType: IP
+    fieldMappings:
+      - identifier: Address
+        columnName: CallerIp
 metadata:
-  atomic: "T1098, loose (resource-creation persistence by unexpected principal). No exact 1:1 atomic."
-  requiredFields: [AzureActivity.OperationNameValue, AzureActivity.ActivityStatusValue, AzureActivity.Caller, AzureActivity.ResourceProviderValue]
+  atomic: "T1098, loose (resource-creation persistence by an unexpected principal). No exact 1:1 atomic."
+  requiredFields: [AzureActivity.OperationNameValue, AzureActivity.ActivityStatusValue, AzureActivity.Caller, AzureActivity.ResourceProviderValue, AzureActivity.Properties_d]
+  dataPlane: "AzureActivity control plane; owner allow-list via the soc-deploy-owners watchlist."
   falsePositives:
-    - "EVERY successful write in an active subscription, the as-deployed rule is too broad (documented gap)."
-  severityRationale: "Medium as intended; in practice the broad logic inflates volume, see tuningGap."
-  responseAction: "Confirm the caller is an expected deployer; if not, investigate the new resource for abuse (mining/staging)."
-  tuningGap: "Logic does not match the name. v2: filter ResourceProviderValue in (Compute,Storage,Web) AND Caller !in (owners allow-list). See detections/DET-005 card."
+    - "A legitimate deployer missing from soc-deploy-owners; add them to the watchlist."
+    - "First-party automation deploying Compute/Storage/Web under a service principal not yet allow-listed."
+  severityRationale: "Medium. A new Microsoft.Compute by a non-owner is higher signal than storage; triage by provider and caller."
+  responseAction: "Confirm the caller is an expected deployer; if not, investigate the new resource for abuse (mining/staging/persistence) and review the caller's recent activity."

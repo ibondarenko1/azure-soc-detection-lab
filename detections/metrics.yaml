@@ -37,8 +37,8 @@ DET-004:
 
 DET-005:
   name: Suspicious resource deployment by non-owner
-  expectedEventVolumePerDay: "HIGH, as-deployed logic matches every write (known gap)"
-  observedFalsePositiveRate: "high by design (see DET-005 tuningGap / v2 fix)"
+  expectedEventVolumePerDay: "low after v2: only non-allow-listed Compute/Storage/Web writes (was: every write)"
+  observedFalsePositiveRate: "not measurable at lab scale; in prod = share of these incidents closed-as-benign over 30d, driven down by maintaining the soc-deploy-owners watchlist"
   truePositivesObserved: 1          # incident #1
   ruleIntervalMinutes: 60
   mttdMinutesObserved: 63
