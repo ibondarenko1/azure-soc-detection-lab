@@ -1,0 +1,25 @@
+// DET-007, Privilege grant followed by deployment (same principal)
+// MITRE: PrivilegeEscalation / Persistence / T1098
+// Source: AzureActivity | Frequency: every 30 min | Lookback: 2h
+// Generated from detections/rules/DET-007-rbac-grant-then-deploy.yaml by cicd/sync-kql-mirror.py — do not edit by hand.
+let corrWindow = 30m;
+let grants =
+    AzureActivity
+    | where TimeGenerated > ago(2h)
+    | where OperationNameValue has "Microsoft.Authorization/roleAssignments/write"
+    | where ActivityStatusValue == "Success"
+    | extend GrantIp = tostring(parse_json(tostring(Properties_d.httpRequest)).clientIpAddress)
+    | project GrantTime = TimeGenerated, Caller, GrantIp;
+let deploys =
+    AzureActivity
+    | where TimeGenerated > ago(2h)
+    | where OperationNameValue endswith "/write"
+    | where ActivityStatusValue == "Success"
+    | where ResourceProviderValue in~ ("Microsoft.Compute", "Microsoft.Storage", "Microsoft.Web")
+    | project DeployTime = TimeGenerated, Caller, DeployOp = OperationNameValue, ResourceId;
+grants
+| join kind=inner deploys on Caller
+| where DeployTime between (GrantTime .. (GrantTime + corrWindow))
+| summarize GrantTime = min(GrantTime), FirstDeploy = min(DeployTime),
+            DeployedResources = make_set(ResourceId, 20), DeployCount = dcount(ResourceId)
+    by Caller, GrantIp

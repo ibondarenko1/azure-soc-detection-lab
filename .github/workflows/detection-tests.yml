@@ -29,6 +29,8 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install pyyaml
+      - name: Check kql/detections mirror is in sync with the rule YAML
+        run: python cicd/sync-kql-mirror.py --check
       - name: Wait for Kusto emulator
         run: |
           for i in $(seq 1 60); do
