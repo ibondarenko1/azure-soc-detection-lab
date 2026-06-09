@@ -7,6 +7,9 @@
 # that rule's incidents closed as benign over a rolling 30 days, driven down by tuning
 # (allow-list watchlists, thresholds). Where a benign baseline volume is knowable it is
 # given instead.
+# Measured (not just asserted): the validation/ harness drives a real benign + attack
+# batch and runs each rule's KQL against it. Latest run (validation/RESULTS.md): 5/5
+# attack scenarios fired (DET-002/003/004/007/009), 0 false fires on the benign stream.
 
 DET-001:
   name: Failed Activity Log operations spike

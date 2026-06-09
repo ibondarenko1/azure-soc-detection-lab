@@ -77,6 +77,8 @@ Five incidents are written up as full investigations:
 - [INV-04, NSG opened inbound from Any (High)](investigations/INV-04-nsg-opened-inbound.md), ARG content correlation (DET-009)
 - [INV-05, Privilege grant then deployment (High)](investigations/INV-05-grant-then-deploy.md), multi-stage correlation (DET-007)
 
+Beyond one-off triggers, a [validation harness](validation/) drives a real **benign + attack** batch in the tenant and runs each rule's KQL against it, so false positives are **measured, not assumed**. Latest run ([results](validation/RESULTS.md)): 5/5 attack scenarios fired (DET-002/003/004/007/009) and 0 false fires on the benign stream (allow-listed owner deploy, sub-threshold deletes, deploy-without-grant). It does not fake production volume; it converts "0% FP at N=1" into a measured "0 false fires over a real benign batch".
+
 ## ATT&CK coverage
 
 A coverage map with explicit gaps is more honest than a list of rules. The [ATT&CK Navigator layer](navigator/coverage-layer.json) ([how to load](navigator/README.md)) shows both:
@@ -113,6 +115,7 @@ detections/rules  rule source-of-truth (Sentinel YAML, deployed by CI)
 detections/*.md   one card per rule: logic, MITRE, trigger, evidence
 detections/metrics.yaml  per-detection metrics (volume, FP rate, TP, MTTD)
 tests/            synthetic-log unit tests (Kusto emulator, fork-runnable)
+validation/       live mixed-activity harness: benign + attack streams, measured TP/FP
 cicd/ + .github   Detection-as-Code pipeline (deploy, validate, regression)
 sigma/            vendor-neutral Sigma conversions (portable to any SIEM)
 kql/              analytics-rule queries + hunting library
