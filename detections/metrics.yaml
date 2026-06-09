@@ -3,7 +3,7 @@
 # replace them. truePositivesObserved references the real incidents this repo raised.
 # mttdMinutesObserved = scheduled-rule interval + observed ingestion lag.
 
-SC200-01:
+DET-001:
   name: Failed Activity Log operations spike
   expectedEventVolumePerDay: "<1 (admin-plane failures are rare outside probing)"
   observedFalsePositiveRate: "0% (no benign caller crossed >=8/5m in this environment)"
@@ -11,7 +11,7 @@ SC200-01:
   ruleIntervalMinutes: 15
   mttdMinutesObserved: 18
 
-SC200-02:
+DET-002:
   name: Network Security Group rule modified
   expectedEventVolumePerDay: "0-2 (NSG changes are infrequent in a small env)"
   observedFalsePositiveRate: "n/a in this environment (no legitimate NSG change occurred)"
@@ -19,7 +19,7 @@ SC200-02:
   ruleIntervalMinutes: 30
   mttdMinutesObserved: 33
 
-SC200-03:
+DET-003:
   name: RBAC role assignment changes
   expectedEventVolumePerDay: "0-3 (onboarding / PIM activity)"
   observedFalsePositiveRate: "n/a in this environment"
@@ -27,7 +27,7 @@ SC200-03:
   ruleIntervalMinutes: 30
   mttdMinutesObserved: 33
 
-SC200-04:
+DET-004:
   name: Mass resource deletion
   expectedEventVolumePerDay: "~0 (bulk delete is exceptional)"
   observedFalsePositiveRate: "0% (no benign teardown hit >=5/5m)"
@@ -35,10 +35,19 @@ SC200-04:
   ruleIntervalMinutes: 15
   mttdMinutesObserved: 18
 
-SC200-05:
+DET-005:
   name: Suspicious resource deployment by non-owner
   expectedEventVolumePerDay: "HIGH, as-deployed logic matches every write (known gap)"
-  observedFalsePositiveRate: "high by design (see SC200-05 tuningGap / v2 fix)"
+  observedFalsePositiveRate: "high by design (see DET-005 tuningGap / v2 fix)"
   truePositivesObserved: 1          # incident #1
   ruleIntervalMinutes: 60
   mttdMinutesObserved: 63
+
+DET-006:
+  name: LSASS credential access
+  dataPlane: "Defender for Endpoint Device* events + MDATP alerts (via Defender XDR connector)"
+  expectedEventVolumePerDay: "~0 (LSASS access outside the Defender stack is exceptional)"
+  observedFalsePositiveRate: "n/a in this environment (only the authorised validation attempts fired)"
+  truePositivesObserved: 1          # incident #65 (controlled T1003.001 attempt, prevented)
+  ruleIntervalMinutes: 15
+  mttdMinutesObserved: 18

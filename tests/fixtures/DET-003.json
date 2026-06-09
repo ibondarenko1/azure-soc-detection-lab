@@ -1,5 +1,5 @@
 {
-  "_comment": "SC200-03 roleAssignments, Success.",
+  "_comment": "DET-003 roleAssignments, Success.",
   "fires": [
     {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Authorization/roleAssignments/write", "ResourceProviderValue": "Microsoft.Authorization", "ResourceId": "/subscriptions/x/providers/Microsoft.Authorization/roleAssignments/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "Properties_d": {"eventCategory": "Administrative"}}
   ],

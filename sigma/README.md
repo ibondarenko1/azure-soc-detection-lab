@@ -6,9 +6,9 @@ QRadar, …) via `sigma convert`, not locked to Microsoft KQL.
 
 | File | Source rule | ATT&CK | Notes |
 |------|-------------|--------|-------|
-| `SC200-02-nsg-rule-modified.yml` | SC200-02 | T1562.007 | simple selection |
-| `SC200-03-rbac-role-assignment.yml` | SC200-03 | T1098.003 | simple selection |
-| `SC200-04-mass-resource-deletion.yml` | SC200-04 | T1485 | **Sigma correlation** (`event_count` ≥ 5 / 5m by caller) |
+| `DET-002-nsg-rule-modified.yml` | DET-002 | T1562.007 | simple selection |
+| `DET-003-rbac-role-assignment.yml` | DET-003 | T1098.003 | simple selection |
+| `DET-004-mass-resource-deletion.yml` | DET-004 | T1485 | **Sigma correlation** (`event_count` ≥ 5 / 5m by caller) |
 
 The mass-deletion rule uses a Sigma **correlation** (base event + `event_count`), the
 portable equivalent of the KQL `summarize … | where DeleteCount >= 5`.
@@ -18,8 +18,8 @@ portable equivalent of the KQL `summarize … | where DeleteCount >= 5`.
 ```bash
 pipx install sigma-cli && sigma plugin install azure
 sigma check sigma/*.yml
-sigma convert -t kusto -p azure_monitor sigma/SC200-02-nsg-rule-modified.yml   # back to KQL
-sigma convert -t splunk sigma/SC200-02-nsg-rule-modified.yml                    # or SPL
+sigma convert -t kusto -p azure_monitor sigma/DET-002-nsg-rule-modified.yml   # back to KQL
+sigma convert -t splunk sigma/DET-002-nsg-rule-modified.yml                    # or SPL
 ```
 
 Field names follow the Sigma `azure/activitylogs` taxonomy (`operationName`,

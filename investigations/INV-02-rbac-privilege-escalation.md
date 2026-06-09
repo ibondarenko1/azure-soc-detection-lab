@@ -1,11 +1,11 @@
 # INV-02, RBAC privilege escalation
 
-> Investigation write-up for the incident raised by [SC200-03](../detections/SC200-03-rbac-role-assignment-changes.md). Fields marked _(fill)_ are completed from the live incident.
+> Investigation write-up for the incident raised by [DET-003](../detections/DET-003-rbac-role-assignment-changes.md). Fields marked _(fill)_ are completed from the live incident.
 
 | | |
 |---|---|
 | **Incident ID** | #2 |
-| **Detection** | SC200-03, RBAC role assignment changes |
+| **Detection** | DET-003, RBAC role assignment changes |
 | **Severity** | Medium |
 | **MITRE** | Privilege Escalation / Persistence → [T1098 Account Manipulation](https://attack.mitre.org/techniques/T1098/) |
 | **Status** | New |
@@ -13,7 +13,7 @@
 ## 1. Triage
 
 - **What fired:** a new RBAC role assignment was created.
-- **Caller (who granted):** `ievgen@summitrangeconsulting.com`
+- **Caller (who granted):** `ievgen@<redacted-tenant>`
 - **Principal granted / role / scope:** self → `Reader` → `rg-soc-sim` (plus Contributor → `sp-soc-sim`); both reverted within minutes
 - **Source IP / time:** 2026-06-07 ~03:16 UTC; incident raised 03:29 UTC
 
@@ -55,4 +55,4 @@ For a real positive:
 ## 5. Lessons / tuning
 
 - Detection fires on `roleAssignments/write` as expected.
-- Tuning follow-ups: see [SC200-03 tuning notes](../detections/SC200-03-rbac-role-assignment-changes.md#tuning-notes).
+- Tuning follow-ups: see [DET-003 tuning notes](../detections/DET-003-rbac-role-assignment-changes.md#tuning-notes).

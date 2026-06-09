@@ -1,5 +1,5 @@
 {
-  "_comment": "SC200-04 mass deletion: >=5 /delete Success per 5m bin per caller.",
+  "_comment": "DET-004 mass deletion: >=5 /delete Success per 5m bin per caller.",
   "fires": [
     {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/delete", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/d1"},
     {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/publicIPAddresses/delete", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/publicIPAddresses/d2"},

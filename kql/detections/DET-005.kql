@@ -1,4 +1,4 @@
-// SC200-05, Suspicious resource deployment by non-owner
+// DET-005, Suspicious resource deployment by non-owner
 // MITRE: Persistence / T1098 Account Manipulation
 // Source: AzureActivity | Frequency: every 60 min | Lookback: 1h
 // NOTE: as-deployed the rule matches ANY successful control-plane write; the

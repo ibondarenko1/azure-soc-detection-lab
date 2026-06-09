@@ -1,5 +1,5 @@
 id: 3b8b8410-f071-4ad2-b684-f0b08c0b25fb
-name: "[SC200] Suspicious resource deployment by non-owner"
+name: "[DET] Suspicious resource deployment by non-owner"
 description: |
   A successful control-plane write (resource deployment). Intended to surface deployments
   by unexpected principals (attacker standing up compute/storage for mining, staging, or
@@ -37,4 +37,4 @@ metadata:
     - "EVERY successful write in an active subscription, the as-deployed rule is too broad (documented gap)."
   severityRationale: "Medium as intended; in practice the broad logic inflates volume, see tuningGap."
   responseAction: "Confirm the caller is an expected deployer; if not, investigate the new resource for abuse (mining/staging)."
-  tuningGap: "Logic does not match the name. v2: filter ResourceProviderValue in (Compute,Storage,Web) AND Caller !in (owners allow-list). See detections/SC200-05 card."
+  tuningGap: "Logic does not match the name. v2: filter ResourceProviderValue in (Compute,Storage,Web) AND Caller !in (owners allow-list). See detections/DET-005 card."

@@ -1,8 +1,8 @@
-# SC200-03, RBAC role assignment changes
+# DET-003, RBAC role assignment changes
 
 | | |
 |---|---|
-| **ID** | SC200-03 |
+| **ID** | DET-003 |
 | **Severity** | Medium |
 | **Rule type** | Scheduled analytics rule |
 | **Status** | Enabled |
@@ -28,11 +28,11 @@ AzureActivity
 
 ## How to trigger (simulation)
 
-See `simulations/trigger-playbook.md` → **SC200-03**. Summary: Subscription/RG → Access control (IAM) → **Add role assignment** → Reader → assign to a user/second account → then **Remove** it.
+See `simulations/trigger-playbook.md` → **DET-003**. Summary: Subscription/RG → Access control (IAM) → **Add role assignment** → Reader → assign to a user/second account → then **Remove** it.
 
 ## Expected result
 
-**Confirmed:** incident **#2** (Medium) raised 2026-06-07 ~03:29 UTC, `roleAssignments/write` (Reader) + delete on scope `rg-soc-sim`, caller `ievgen@summitrangeconsulting.com`.
+**Confirmed:** incident **#2** (Medium) raised 2026-06-07 ~03:29 UTC, `roleAssignments/write` (Reader) + delete on scope `rg-soc-sim`, caller `ievgen@<redacted-tenant>`.
 
 ## Evidence
 

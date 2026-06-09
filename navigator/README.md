@@ -13,11 +13,11 @@
 
 | Technique | Rule |
 |-----------|------|
-| T1087 Account Discovery | SC200-01 (heuristic) |
-| T1562.007 Disable/Modify Cloud Firewall | SC200-02 |
-| T1098.003 Additional Cloud Roles | SC200-03 |
-| T1485 Data Destruction | SC200-04 |
-| T1098 Account Manipulation | SC200-03 / SC200-05 |
+| T1087 Account Discovery | DET-001 (heuristic) |
+| T1562.007 Disable/Modify Cloud Firewall | DET-002 |
+| T1098.003 Additional Cloud Roles | DET-003 |
+| T1485 Data Destruction | DET-004 |
+| T1098 Account Manipulation | DET-003 / DET-005 |
 
 **Known gaps (red)**, same cloud kill-chain, not yet detected:
 
@@ -25,7 +25,7 @@
 |-----------|-----|
 | T1078 Valid Accounts | no sign-in / impossible-travel anomaly detection |
 | T1110 Brute Force | no auth-failure correlation on sign-ins |
-| T1526 Cloud Service Discovery | only partially implied by SC200-01 |
+| T1526 Cloud Service Discovery | only partially implied by DET-001 |
 | T1530 Data from Cloud Storage | no storage data-plane access detection |
 | T1496 Resource Hijacking | no crypto-mining / spend-anomaly detection |
 

@@ -1,8 +1,8 @@
-# SC200-01, Failed Activity Log operations spike
+# DET-001, Failed Activity Log operations spike
 
 | | |
 |---|---|
-| **ID** | SC200-01 |
+| **ID** | DET-001 |
 | **Severity** | Medium |
 | **Rule type** | Scheduled analytics rule |
 | **Status** | Enabled |
@@ -28,15 +28,15 @@ AzureActivity
 
 ## How to trigger (simulation)
 
-See `simulations/trigger-playbook.md` → **SC200-01**. Summary: from a low-privilege / second account, repeatedly attempt operations you are not authorized for (~10+ within one hour), e.g. delete a resource or read a Key Vault secret you lack rights to.
+See `simulations/trigger-playbook.md` → **DET-001**. Summary: from a low-privilege / second account, repeatedly attempt operations you are not authorized for (~10+ within one hour), e.g. delete a resource or read a Key Vault secret you lack rights to.
 
 ## Expected result
 
-**Confirmed:** incident **#4** (Medium) raised 2026-06-07 ~03:29 UTC, caller `ievgen@summitrangeconsulting.com`, 12 failed `publicIPAddresses/write` operations in one 5-minute bin.
+**Confirmed:** incident **#4** (Medium) raised 2026-06-07 ~03:29 UTC, caller `ievgen@<redacted-tenant>`, 12 failed `publicIPAddresses/write` operations in one 5-minute bin.
 
 ## Evidence
 
-This detection's alert appears in the consolidated [SC200 alert queue](../screenshots/05-incidents-queue-populated.png) (Discovery / T1087).
+This detection's alert appears in the consolidated [consolidated alert queue](../screenshots/05-incidents-queue-populated.png) (Discovery / T1087).
 
 ## Tuning notes
 
@@ -46,6 +46,6 @@ This detection's alert appears in the consolidated [SC200 alert queue](../screen
 
 **Tightening trade-off.** Lowering further (e.g. ≥5) catches slower probing but starts alerting on routine automation noise; raising it risks missing a careful actor.
 
-**Evasion.** An attacker stays under the bar by spreading failures across time bins or across principals, or by avoiding failures entirely (read-only enumeration that succeeds). Defence-in-depth: pair with [SC200-03](SC200-03-rbac-role-assignment-changes.md) and Entra sign-in anomaly detections.
+**Evasion.** An attacker stays under the bar by spreading failures across time bins or across principals, or by avoiding failures entirely (read-only enumeration that succeeds). Defence-in-depth: pair with [DET-003](DET-003-rbac-role-assignment-changes.md) and Entra sign-in anomaly detections.
 
 **Validation.** ATT&CK [T1087](https://attack.mitre.org/techniques/T1087/) / T1526, heuristic (failed-permission probing); see [docs/04-validation.md](../docs/04-validation.md).

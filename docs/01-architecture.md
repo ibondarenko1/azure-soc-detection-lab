@@ -10,7 +10,7 @@
 
 | Source | Key tables | Used by |
 |--------|-----------|---------|
-| Azure subscription Activity Log | `AzureActivity` | all 5 SC200 detections |
+| Azure subscription Activity Log | `AzureActivity` | all 5 control-plane detections |
 | Microsoft Defender for Office 365 | `EmailEvents`, `EmailUrlInfo`, `UrlClickEvents`, `CampaignInfo` | hunting library |
 | Microsoft Defender for Endpoint | `Device*` | hunting / context |
 | Microsoft Defender XDR | `AlertInfo`, `AlertEvidence`, `BehaviorInfo` | enrichment |
@@ -28,7 +28,7 @@ flowchart LR
   A --> W[Log Analytics<br/>sc200-ws]
   B --> W
   C --> W
-  W --> R[5x SC200<br/>scheduled analytics rules]
+  W --> R[5<br/>scheduled analytics rules]
   R --> I[Incidents]
   I --> V[Investigation + MITRE]
 ```

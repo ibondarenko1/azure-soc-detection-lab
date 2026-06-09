@@ -71,7 +71,7 @@ def main():
     total = 0
     for path in sorted(glob.glob(os.path.join(RULES, "*.yaml"))):
         rule = yaml.safe_load(open(path, encoding="utf-8"))
-        m = re.match(r"(SC200-\d+)", os.path.basename(path))
+        m = re.match(r"(DET-\d+)", os.path.basename(path))
         fx_path = os.path.join(FIX, m.group(1) + ".json")
         if not os.path.exists(fx_path):
             print(f"SKIP {rule['name']}, no fixture"); continue

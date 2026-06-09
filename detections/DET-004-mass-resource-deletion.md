@@ -1,8 +1,8 @@
-# SC200-04, Mass resource deletion
+# DET-004, Mass resource deletion
 
 | | |
 |---|---|
-| **ID** | SC200-04 |
+| **ID** | DET-004 |
 | **Severity** | **High** |
 | **Rule type** | Scheduled analytics rule |
 | **Status** | Enabled |
@@ -29,11 +29,11 @@ AzureActivity
 
 ## How to trigger (simulation)
 
-See `simulations/trigger-playbook.md` → **SC200-04**. Summary: create resource group `rg-sim-delete` with several cheap resources (e.g. 5× public IPs / empty NSGs) → select all → **Delete** in bulk (or delete the resource group).
+See `simulations/trigger-playbook.md` → **DET-004**. Summary: create resource group `rg-sim-delete` with several cheap resources (e.g. 5× public IPs / empty NSGs) → select all → **Delete** in bulk (or delete the resource group).
 
 ## Expected result
 
-**Confirmed:** incident **#3** (High) raised 2026-06-07 ~03:29 UTC, 5× `publicIPAddresses/delete` + resource-group delete on `rg-sim-delete`, caller `ievgen@summitrangeconsulting.com`.
+**Confirmed:** incident **#3** (High) raised 2026-06-07 ~03:29 UTC, 5× `publicIPAddresses/delete` + resource-group delete on `rg-sim-delete`, caller `ievgen@<redacted-tenant>`.
 
 ## Evidence
 

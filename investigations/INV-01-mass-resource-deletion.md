@@ -1,11 +1,11 @@
 # INV-01, Mass resource deletion (High)
 
-> Investigation write-up for the incident raised by [SC200-04](../detections/SC200-04-mass-resource-deletion.md). Fields marked _(fill)_ are completed from the live incident.
+> Investigation write-up for the incident raised by [DET-004](../detections/DET-004-mass-resource-deletion.md). Fields marked _(fill)_ are completed from the live incident.
 
 | | |
 |---|---|
 | **Incident ID** | #3 |
-| **Detection** | SC200-04, Mass resource deletion |
+| **Detection** | DET-004, Mass resource deletion |
 | **Severity** | High |
 | **MITRE** | Impact → [T1485 Data Destruction](https://attack.mitre.org/techniques/T1485/) |
 | **Status** | New |
@@ -13,7 +13,7 @@
 ## 1. Triage
 
 - **What fired:** a single caller deleted ≥5 distinct resources within one hour.
-- **Caller:** `ievgen@summitrangeconsulting.com` (redacted in screenshots)
+- **Caller:** `ievgen@<redacted-tenant>` (redacted in screenshots)
 - **Source IP:** _(captured in incident screenshot)_
 - **Time window:** simulated deletes 2026-06-07 ~03:16–03:26 UTC; incident raised 03:29 UTC
 
@@ -56,4 +56,4 @@ What a SOC would do for a real positive:
 ## 5. Lessons / tuning
 
 - Confirmed the detection fires reliably on bulk delete.
-- Tuning follow-ups: see [SC200-04 tuning notes](../detections/SC200-04-mass-resource-deletion.md#tuning-notes).
+- Tuning follow-ups: see [DET-004 tuning notes](../detections/DET-004-mass-resource-deletion.md#tuning-notes).

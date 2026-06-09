@@ -6,7 +6,7 @@ Exact, benign actions to fire each detection. Every action is performed against 
 
 ---
 
-## SC200-01, Failed Activity Log operations spike
+## DET-001, Failed Activity Log operations spike
 
 Generate ~10+ authorization failures from one caller within an hour.
 
@@ -23,7 +23,7 @@ done
 
 ---
 
-## SC200-02, NSG rule modified
+## DET-002, NSG rule modified
 
 **Portal:** Network security groups → *(existing or a new throwaway NSG)* → **Inbound security rules** → **Add** → e.g. Source `Any`, Destination port `3389`, Action `Allow`, name `sim-rdp-open` → **Save** → then open the rule → **Delete**.
 
@@ -31,7 +31,7 @@ done
 
 ---
 
-## SC200-03, RBAC role assignment changes
+## DET-003, RBAC role assignment changes
 
 **Portal:** Subscription (or a resource group) → **Access control (IAM)** → **Add → Add role assignment** → role `Reader` → assign to a user / your second account → **Review + assign** → then **Access control (IAM) → Role assignments**, find it, **Remove**.
 
@@ -39,7 +39,7 @@ done
 
 ---
 
-## SC200-04, Mass resource deletion
+## DET-004, Mass resource deletion
 
 **Portal:** create resource group `rg-sim-delete` → add 5 cheap resources (e.g. 5× **Public IP address**, Basic SKU, or 5× empty NSGs) → go to the resource group → select all → **Delete**, or delete the whole resource group.
 
@@ -47,11 +47,11 @@ done
 
 ---
 
-## SC200-05, Suspicious resource deployment by non-owner
+## DET-005, Suspicious resource deployment by non-owner
 
 **Portal:** sign in as a **non-owner** principal (Contributor or guest) → create a resource, e.g. a **Storage account** (Standard LRS) named `simnonowner<random>` in a test RG.
 
-**Cleanup:** delete the storage account (and test RG) once the incident is captured. Note: this deletion may also feed SC200-04, fine, capture both.
+**Cleanup:** delete the storage account (and test RG) once the incident is captured. Note: this deletion may also feed DET-004, fine, capture both.
 
 ---
 
@@ -60,4 +60,4 @@ done
 1. Wait for the rule's scheduled run.
 2. Confirm the incident in **Incidents** (`security.microsoft.com/incidents`).
 3. Capture the evidence screenshots (see `screenshots/README.md`).
-4. Fill the incident specifics into the matching `detections/SC200-0N-*.md` card.
+4. Fill the incident specifics into the matching `detections/DET-00N-*.md` card.

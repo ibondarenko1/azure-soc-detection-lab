@@ -9,7 +9,7 @@ This complements the live `detection-regression` workflow (which proves rules fi
 real tenant): unit tests prove the **logic** is correct and won't silently break on a refactor.
 
 ## Layout
-- `fixtures/SC200-0N.json`, `{ "fires": [...events...], "silent": [...events...] }` per rule.
+- `fixtures/DET-00N.json`, `{ "fires": [...events...], "silent": [...events...] }` per rule.
 - `run-detection-tests.py`, loads each rule's `query` from `detections/rules/*.yaml`, ingests
   the fixture into the emulator (`.set-or-replace AzureActivity`), runs the query, asserts the
   fire/silent expectation.

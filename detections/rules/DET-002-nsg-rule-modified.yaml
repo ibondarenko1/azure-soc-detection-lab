@@ -1,5 +1,5 @@
 id: 41c9799f-00e7-47b8-a2a5-e4f4ee0b4ab4
-name: "[SC200] Network Security Group rule modified"
+name: "[DET] Network Security Group rule modified"
 description: |
   An NSG security rule was created, modified, or deleted. Loosening an NSG (e.g. opening
   a management port to the internet) is a classic move to weaken network defenses.

@@ -5,7 +5,7 @@ description: |
   Detects creation or removal of an Azure RBAC role assignment. Granting a role
   (especially Owner/Contributor/User Access Administrator) to a new principal is a
   primary cloud privilege-escalation and persistence mechanism. Portable Sigma
-  equivalent of SC200-03.
+  equivalent of DET-003.
 references:
   - https://attack.mitre.org/techniques/T1098/003/
 author: Ievgen Bondarenko
