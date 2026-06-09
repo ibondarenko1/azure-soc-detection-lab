@@ -2,7 +2,7 @@
   "name": "Azure Sentinel Detection Engineering Coverage",
   "versions": { "attack": "15", "navigator": "4.9.1", "layer": "4.5" },
   "domain": "enterprise-attack",
-  "description": "Coverage of the deployed detections (5 AzureActivity control-plane + 1 Defender for Endpoint), with honest gaps in the same tactics. Green = covered by a deployed rule; red = known gap.",
+  "description": "Coverage of the deployed detections (6 AzureActivity control-plane incl. a multi-stage correlation, 1 Defender for Endpoint, 1 Entra ID identity), with honest gaps in the same tactics. Green = covered by a deployed rule; red = known gap.",
   "sorting": 0,
   "hideDisabled": false,
   "techniques": [
@@ -10,13 +10,13 @@
     { "techniqueID": "T1562.007", "score": 100, "color": "#2da44e", "comment": "DET-002 Network Security Group rule modified" },
     { "techniqueID": "T1562", "score": 100, "color": "#2da44e", "comment": "Covered via sub-technique T1562.007 (DET-002)" },
     { "techniqueID": "T1098.003", "score": 100, "color": "#2da44e", "comment": "DET-003 RBAC role assignment changes" },
-    { "techniqueID": "T1098", "score": 100, "color": "#2da44e", "comment": "DET-003 (T1098.003) + DET-005 non-owner deployment (loose)" },
+    { "techniqueID": "T1098", "score": 100, "color": "#2da44e", "comment": "DET-003 (T1098.003) + DET-005 non-owner deployment + DET-007 grant-then-deploy correlation" },
     { "techniqueID": "T1485", "score": 100, "color": "#2da44e", "comment": "DET-004 Mass resource deletion" },
-    { "techniqueID": "T1003.001", "score": 100, "color": "#2da44e", "comment": "DET-006 LSASS credential access (Defender for Endpoint DeviceEvents)" },
+    { "techniqueID": "T1003.001", "score": 100, "color": "#2da44e", "comment": "DET-006 LSASS credential access (Defender for Endpoint)" },
     { "techniqueID": "T1003", "score": 100, "color": "#2da44e", "comment": "Covered via sub-technique T1003.001 (DET-006)" },
+    { "techniqueID": "T1110", "score": 100, "color": "#2da44e", "comment": "DET-008 Successful sign-in after repeated failures (failure-then-success correlation on SigninLogs)" },
+    { "techniqueID": "T1078", "score": 100, "color": "#2da44e", "comment": "DET-008 Valid Accounts (a brute-forced/sprayed credential that succeeds)" },
 
-    { "techniqueID": "T1078", "score": 25, "color": "#e85d4c", "comment": "GAP, Valid Accounts: no sign-in / impossible-travel anomaly detection yet" },
-    { "techniqueID": "T1110", "score": 25, "color": "#e85d4c", "comment": "GAP, Brute Force: no auth-failure correlation on sign-ins" },
     { "techniqueID": "T1526", "score": 25, "color": "#e85d4c", "comment": "GAP, Cloud Service Discovery: only partially implied by DET-001" },
     { "techniqueID": "T1530", "score": 25, "color": "#e85d4c", "comment": "GAP, Data from Cloud Storage: no storage data-plane access detection" },
     { "techniqueID": "T1496", "score": 25, "color": "#e85d4c", "comment": "GAP, Resource Hijacking: no crypto-mining / spend-anomaly detection" }
@@ -27,7 +27,7 @@
     { "label": "Known gap (not yet covered)", "color": "#e85d4c" }
   ],
   "metadata": [
-    { "name": "rules", "value": "6 scheduled analytics rules (5 AzureActivity + 1 Defender for Endpoint)" },
+    { "name": "rules", "value": "8 scheduled analytics rules (6 AzureActivity + 1 Defender for Endpoint + 1 Entra ID identity)" },
     { "name": "repo", "value": "github.com/ibondarenko1/azure-sentinel-detection-engineering" }
   ],
   "showTacticRowBackground": true,
