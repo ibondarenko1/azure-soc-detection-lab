@@ -1,10 +1,13 @@
 {
-  "_comment": "DET-005 any successful /write (as-deployed broad logic).",
+  "_comment": "DET-005 v2: fires on a non-owner successful write to a watched provider (Compute/Storage/Web); silent for an allow-listed owner, a non-watched provider, a read, or a failure. watchlist = soc-deploy-owners SearchKey values (example owner, no real identity).",
+  "watchlist": ["deploy-owner@example.com"],
   "fires": [
-    {"ActivityStatusValue": "Success", "Caller": "sp-unknown@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/write", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg1"}
+    {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/write", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg1"}
   ],
   "silent": [
-    {"ActivityStatusValue": "Failure", "Caller": "sp-unknown@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/write", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg2"},
-    {"ActivityStatusValue": "Success", "Caller": "sp-unknown@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/read", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg3"}
+    {"ActivityStatusValue": "Success", "Caller": "deploy-owner@example.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/write", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg-owner"},
+    {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Network/networkSecurityGroups/write", "ResourceProviderValue": "Microsoft.Network", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Network/networkSecurityGroups/nsg1"},
+    {"ActivityStatusValue": "Success", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/read", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg-read"},
+    {"ActivityStatusValue": "Failure", "Caller": "attacker@contoso.com", "OperationNameValue": "Microsoft.Storage/storageAccounts/write", "ResourceProviderValue": "Microsoft.Storage", "ResourceId": "/subscriptions/x/rg/a/providers/Microsoft.Storage/storageAccounts/stg-fail"}
   ]
 }
