@@ -10,9 +10,10 @@
 
 | Source | Key tables | Used by |
 |--------|-----------|---------|
-| Azure subscription Activity Log | `AzureActivity` | all 5 control-plane detections |
+| Azure subscription Activity Log | `AzureActivity` | the 6 control-plane detections (DET-001 to 005, and the DET-007 correlation) |
+| Microsoft Entra ID | `SigninLogs`, `AuditLogs` | DET-008 identity detection |
 | Microsoft Defender for Office 365 | `EmailEvents`, `EmailUrlInfo`, `UrlClickEvents`, `CampaignInfo` | hunting library |
-| Microsoft Defender for Endpoint | `Device*` | hunting / context |
+| Microsoft Defender for Endpoint | `Device*`, `DeviceTvm*` | DET-006 + hunting |
 | Microsoft Defender XDR | `AlertInfo`, `AlertEvidence`, `BehaviorInfo` | enrichment |
 | Security Exposure Management | `ExposureGraphNodes`, `ExposureGraphEdges` | posture context |
 

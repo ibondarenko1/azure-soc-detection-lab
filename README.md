@@ -1,6 +1,6 @@
 # Azure Sentinel Detection Engineering
 
-Detection engineering on a live Microsoft Sentinel and Defender XDR environment I operate. Five custom analytics rules watch Azure control-plane activity, each mapped to MITRE ATT&CK and proven end to end: a controlled benign action triggers the rule, the rule raises an incident, and the incident gets investigated and documented. A sixth rule extends the same pipeline to the endpoint plane (Defender for Endpoint), with Defender Vulnerability Management feeding a hunting library.
+Detection engineering on a live Microsoft Sentinel and Defender XDR environment I operate. Eight custom analytics rules span three planes, each mapped to MITRE ATT&CK and proven end to end: a controlled action triggers the rule, the rule raises an incident, and the incident gets investigated and documented. Six watch the Azure **control plane** (`AzureActivity`), including a multi-stage correlation; one watches the **endpoint** (Defender for Endpoint), with Defender Vulnerability Management feeding a hunting library; one watches **identity** (Entra ID `SigninLogs`). All deployed by the same PR-gated pipeline.
 
 ![Telemetry, rules, incidents, and the CI/CD pipeline](screenshots/demo.gif)
 
@@ -41,7 +41,7 @@ flowchart LR
   A --> W[Log Analytics workspace<br/>sc200-ws]
   B --> W
   C --> W
-  W --> R[6 scheduled<br/>analytics rules]
+  W --> R[8 scheduled<br/>analytics rules]
   R --> I[Incidents]
   I --> V[Investigation<br/>+ MITRE mapping]
 ```
@@ -80,11 +80,12 @@ A coverage map with explicit gaps is more honest than a list of rules. The [ATT&
 
 | Covered (deployed rule) | Known gap, tracked as an issue |
 |-------------------------|---------------------------------|
-| T1087 Account Discovery (DET-001) | [T1078 Valid Accounts](../../issues/10), sign-in anomaly |
-| T1562.007 Disable/Modify Cloud Firewall (DET-002) | [T1110 Brute Force](../../issues/11), auth-failure correlation |
-| T1098.003 Additional Cloud Roles (DET-003) | [T1530 Data from Cloud Storage](../../issues/12), data-plane detection |
-| T1485 Data Destruction (DET-004) | [T1496 Resource Hijacking](../../issues/13), spend/mining anomaly |
-| T1098 Account Manipulation (DET-003 / DET-005) | [T1526 Cloud Service Discovery](../../issues/14), strengthen heuristic |
+| T1087 Account Discovery (DET-001) | [T1530 Data from Cloud Storage](../../issues/12), data-plane detection |
+| T1562.007 Disable/Modify Cloud Firewall (DET-002) | [T1496 Resource Hijacking](../../issues/13), spend/mining anomaly |
+| T1098 Account Manipulation (DET-003 / DET-005 / DET-007) | [T1526 Cloud Service Discovery](../../issues/14), strengthen heuristic |
+| T1485 Data Destruction (DET-004) | |
+| T1003.001 LSASS Memory (DET-006) | |
+| T1110 Brute Force / T1078 Valid Accounts (DET-008) | |
 
 The gaps are not static text. Each one is a live [`detection-gap` issue](../../issues?q=is%3Aissue+label%3Adetection-gap), so the roadmap is a clickable backlog.
 
