@@ -70,10 +70,12 @@ Each detection was triggered with a controlled, self-reverted administrative act
 
 ![Incidents queue](screenshots/05-incidents-queue-populated.png)
 
-Three incidents are written up as full investigations:
+Five incidents are written up as full investigations:
 - [INV-01, Mass resource deletion (High)](investigations/INV-01-mass-resource-deletion.md)
 - [INV-02, RBAC privilege escalation](investigations/INV-02-rbac-privilege-escalation.md)
 - [INV-03, LSASS credential access (High)](investigations/INV-03-lsass-credential-access.md), endpoint, Incident #65
+- [INV-04, NSG opened inbound from Any (High)](investigations/INV-04-nsg-opened-inbound.md), ARG content correlation (DET-009)
+- [INV-05, Privilege grant then deployment (High)](investigations/INV-05-grant-then-deploy.md), multi-stage correlation (DET-007)
 
 ## ATT&CK coverage
 

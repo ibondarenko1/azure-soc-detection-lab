@@ -62,9 +62,9 @@ DET-007:
   dataPlane: "AzureActivity self-join (roleAssignments/write -> watched-provider write, same Caller, <=30m)"
   expectedEventVolumePerDay: "~0 (the correlation is rare; either half alone does not fire)"
   observedFalsePositiveRate: "not measurable at lab scale; in prod = share of these incidents closed-as-benign over 30d. Lower than either single-stage rule by construction (requires both steps)"
-  truePositivesObserved: 0          # authored + fixture-validated; live witness pending a simulated chain
+  truePositivesObserved: 1          # live witness: grant 07:54 -> deploy 08:02 by same principal correlated
   ruleIntervalMinutes: 30
-  mttdMinutesObserved: null         # pending first live correlation
+  mttdMinutesObserved: 33
 
 DET-008:
   name: Successful sign-in after repeated failures
@@ -80,6 +80,6 @@ DET-009:
   dataPlane: "AzureActivity change event joined to ARG-sourced NSG config (soc-open-mgmt-nsg-rules watchlist, refreshed by the nsg-posture-watchlist Action)"
   expectedEventVolumePerDay: "~0; only NSG changes that leave the NSG open inbound from Any"
   observedFalsePositiveRate: "not measurable at lab scale; far below DET-002 by construction (requires the NSG to actually be open, not just changed)"
-  truePositivesObserved: 0          # authored + fixture-validated; live witness pending a controlled open-rule
+  truePositivesObserved: 1          # live witness: controlled open-rule (nsg-det9-witness, RDP from *) correlated via ARG watchlist
   ruleIntervalMinutes: 60
-  mttdMinutesObserved: null
+  mttdMinutesObserved: 63
