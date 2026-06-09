@@ -1,8 +1,9 @@
 // DET-001, Failed Activity Log operations spike
-// MITRE: Discovery / T1087 Account Discovery
+// MITRE: Discovery / T1087
 // Source: AzureActivity | Frequency: every 15 min | Lookback: 1h
+// Generated from detections/rules/DET-001-failed-activity-log-spike.yaml by cicd/sync-kql-mirror.py — do not edit by hand.
 AzureActivity
 | where TimeGenerated > ago(1h)
 | where ActivityStatusValue == "Failure"
 | summarize FailureCount = count() by Caller, bin(TimeGenerated, 5m)
-| where FailureCount >= 10
+| where FailureCount >= 8

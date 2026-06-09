@@ -1,10 +1,16 @@
 // DET-005, Suspicious resource deployment by non-owner
-// MITRE: Persistence / T1098 Account Manipulation
+// MITRE: Persistence / T1098
 // Source: AzureActivity | Frequency: every 60 min | Lookback: 1h
-// NOTE: as-deployed the rule matches ANY successful control-plane write; the
-// "non-owner" intent is NOT enforced in this query (see card tuning notes).
+// Generated from detections/rules/DET-005-suspicious-deployment-non-owner.yaml by cicd/sync-kql-mirror.py — do not edit by hand.
+// soc-deploy-owners watchlist: SearchKey = UPN/objectId of every principal allowed to deploy.
+// Maintained in the tenant (no identities committed to the repo).
+let owners = _GetWatchlist('soc-deploy-owners') | project SearchKey;
+let watchedProviders = dynamic(["Microsoft.Compute", "Microsoft.Storage", "Microsoft.Web"]);
 AzureActivity
 | where TimeGenerated > ago(1h)
 | where OperationNameValue endswith "/write"
 | where ActivityStatusValue == "Success"
-| project TimeGenerated, Caller, OperationNameValue, ResourceProviderValue, ResourceId, ActivityStatusValue
+| where ResourceProviderValue in~ (watchedProviders)
+| where Caller !in~ (owners)
+| extend CallerIp = tostring(parse_json(tostring(Properties_d.httpRequest)).clientIpAddress)
+| project TimeGenerated, Caller, CallerIp, OperationNameValue, ResourceProviderValue, ResourceId

@@ -1,12 +1,45 @@
 // DET-006, LSASS credential access
-// MITRE: Credential Access / T1003.001 OS Credential Dumping: LSASS Memory
-// Source: DeviceEvents (Defender for Endpoint via Defender XDR connector)
-// Frequency: every 15 min | Lookback: 1h
-DeviceEvents
-| where TimeGenerated > ago(1h)
-| where ActionType == "OpenProcessApiCall"
-| where FileName =~ "lsass.exe"
-| where InitiatingProcessFileName !in~ ("MsMpEng.exe", "MsSense.exe", "SenseIR.exe")
-| summarize AccessCount = count(), Tools = make_set(InitiatingProcessFileName, 10)
-    by DeviceName, InitiatingProcessAccountName, bin(TimeGenerated, 5m)
-| where AccessCount >= 1
+// MITRE: CredentialAccess / T1003.001
+// Source: DeviceEvents, DeviceProcessEvents, SecurityAlert | Frequency: every 15 min | Lookback: 1h
+// Generated from detections/rules/DET-006-lsass-credential-access.yaml by cicd/sync-kql-mirror.py — do not edit by hand.
+let lookback = 1h;
+let knownGoodReaders = dynamic(["MsMpEng.exe", "MsSense.exe", "SenseIR.exe"]);
+// Signal A - direct handle open to LSASS (api-level: Mimikatz / direct-syscall tooling)
+let openHandle =
+    DeviceEvents
+    | where TimeGenerated > ago(lookback)
+    | where ActionType == "OpenProcessApiCall" and FileName =~ "lsass.exe"
+    | where InitiatingProcessFileName !in~ (knownGoodReaders)
+    | extend Account = InitiatingProcessAccountName,
+             Technique = "Handle open to lsass.exe",
+             Evidence = strcat(InitiatingProcessFileName, " -> lsass.exe");
+// Signal B - credential-dump tool with LSASS on the command line (process-level)
+let dumpTool =
+    DeviceProcessEvents
+    | where TimeGenerated > ago(lookback)
+    | where (ProcessCommandLine has "lsass" and ProcessCommandLine has_any ("-ma", "MiniDump", "nanodump", "dumpert", "comsvcs"))
+        or (FileName in~ ("procdump.exe", "procdump64.exe") and ProcessCommandLine has "lsass")
+    | extend Account = AccountName,
+             Technique = "Credential-dump tool vs lsass",
+             Evidence = ProcessCommandLine;
+// Signal C - Defender prevented an LSASS credential-theft hacktool (AMSI / behavioral)
+let preventedTool =
+    SecurityAlert
+    | where TimeGenerated > ago(lookback)
+    | where ProviderName == "MDATP"
+    | where AlertName has "lsass" or AlertName has_any ("DumpLsass", "Lsassdump")
+    | mv-apply Entity = parse_json(Entities) on (
+        where Entity.Type == "host"
+        | project DeviceName = tostring(Entity.HostName)
+        | take 1)
+    | extend Account = "",
+             Technique = "Defender-prevented lsass hacktool",
+             Evidence = AlertName;
+union
+  (openHandle    | project TimeGenerated, DeviceName, Account, Technique, Evidence),
+  (dumpTool      | project TimeGenerated, DeviceName, Account, Technique, Evidence),
+  (preventedTool | project TimeGenerated, DeviceName, Account, Technique, Evidence)
+| summarize Techniques = make_set(Technique), Evidence = make_set(Evidence, 12),
+            FirstSeen = min(TimeGenerated), LastSeen = max(TimeGenerated), Signals = count()
+    by DeviceName, Account
+| where Signals >= 1

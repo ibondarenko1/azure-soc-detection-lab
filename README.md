@@ -12,7 +12,7 @@ Detection engineering on a live Microsoft Sentinel and Defender XDR environment 
 
 ## Why this exists
 
-A detection is only credible once you can show it firing. This repo closes that loop across the Azure control plane and the endpoint: rule logic, controlled trigger, generated incident, investigation, and MITRE mapping. It is Sentinel analytics rules, KQL, and incident response against real telemetry rather than synthetic samples.
+A detection is only credible once you can show it firing. This repo closes that loop across three planes, the Azure control plane, the endpoint, and identity: rule logic, controlled trigger, generated incident, investigation, and MITRE mapping. It goes past single-event rules with a multi-stage correlation (grant then deploy) and a content-aware rule that joins Azure Resource Graph posture to the change event. It is Sentinel analytics rules, KQL, and incident response against real telemetry rather than synthetic samples.
 
 ## Detection-as-Code
 
@@ -126,7 +126,7 @@ screenshots/      visual evidence
 
 ## Skills demonstrated
 
-KQL · Microsoft Sentinel scheduled analytics rules · Microsoft Defender XDR · Microsoft Defender for Endpoint · Defender Vulnerability Management (TVM) · advanced hunting (Device tables) · Detection-as-Code (GitHub Actions, OIDC) · SOAR (Logic Apps automation rules) · Sigma (vendor-neutral) · Atomic Red Team validation · incident triage and investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
+KQL · Microsoft Sentinel scheduled analytics rules · multi-stage correlation rules · Entra ID identity detection (SigninLogs) · allow-list watchlists (`_GetWatchlist`) · Azure Resource Graph posture-as-content (scheduled Action) · Microsoft Defender XDR · Microsoft Defender for Endpoint · Defender Vulnerability Management (TVM) · advanced hunting (Device / DeviceTvm tables) · Detection-as-Code (GitHub Actions, OIDC) · SOAR (Logic Apps automation rules) · Sigma (vendor-neutral) · Atomic Red Team validation · incident triage and investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
 
 ## Credentials
 

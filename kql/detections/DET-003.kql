@@ -1,8 +1,14 @@
 // DET-003, RBAC role assignment changes
-// MITRE: Privilege Escalation / Persistence / T1098 Account Manipulation
+// MITRE: PrivilegeEscalation / Persistence / T1098
 // Source: AzureActivity | Frequency: every 30 min | Lookback: 1h
+// Generated from detections/rules/DET-003-rbac-role-assignment-changes.yaml by cicd/sync-kql-mirror.py — do not edit by hand.
+// soc-automation-principals: SearchKey = objectId/UPN of automation + PIM identities whose
+// role assignments are routine. Maintained in the tenant; no identities committed to the repo.
+let automation = _GetWatchlist('soc-automation-principals') | project SearchKey;
 AzureActivity
 | where TimeGenerated > ago(1h)
 | where OperationNameValue has "Microsoft.Authorization/roleAssignments"
 | where ActivityStatusValue == "Success"
-| project TimeGenerated, Caller, OperationNameValue, Properties_d, ResourceId
+| where Caller !in~ (automation)
+| extend CallerIp = tostring(parse_json(tostring(Properties_d.httpRequest)).clientIpAddress)
+| project TimeGenerated, Caller, CallerIp, OperationNameValue, ResourceId
