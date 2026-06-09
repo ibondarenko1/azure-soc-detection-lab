@@ -1,0 +1,72 @@
+# Custom Microsoft Security Copilot promptbook, DET-004 "Mass resource deletion" triage
+#
+# Purpose: AI investigation for the High-severity DET-004 detection (MITRE T1485 Data
+# Destruction). Chains prompts to summarize the incident, identify the caller and deleted
+# resources, score blast radius, recommend prioritized containment, and emit a KQL hunt, 
+# formatted to be posted back as a Sentinel incident comment by the copilot-triage playbook.
+#
+# How it is used:
+#   - Import once in the Security Copilot portal (My promptbooks -> Create promptbook), or
+#   - Invoke from playbooks/copilot-triage (Security Copilot connector -> "Submit a
+#     Security Copilot promptbook"), passing the inputs below from the Sentinel incident.
+#
+# Requires provisioned Security Copilot capacity (>= 1 SCU) to run. See
+# ../../docs/06-security-copilot.md for the cost-bounded provision -> run -> delete runbook.
+
+name: DET-004 Mass Deletion Triage
+description: >-
+  AI investigation for the High-severity "Mass resource deletion" detection (DET-004).
+  Summarizes the incident, identifies the caller and deleted resources, scores blast
+  radius, recommends prioritized containment, and emits a KQL hunt, formatted for posting
+  back as an incident comment.
+tags: [DET, AzureActivity, T1485, mass-deletion, SOAR, security-copilot]
+
+inputs:
+  - name: IncidentArmId
+    description: ARM resource id of the Sentinel incident (passed by the playbook trigger).
+    required: true
+  - name: LookbackHours
+    description: Hunt look-back window, in hours.
+    required: false
+    default: "24"
+
+# Prompts run top-to-bottom; each can reference the conversation context of the prior ones.
+prompts:
+  - id: summarize
+    prompt: >-
+      Summarize Microsoft Sentinel incident {{IncidentArmId}}: title, severity, status,
+      creation time, and the triggering analytic rule. State plainly that this is the
+      DET-004 "Mass resource deletion" detection (MITRE ATT&CK T1485 Data Destruction).
+
+  - id: actor_and_targets
+    prompt: >-
+      From the incident entities and the underlying AzureActivity records, identify the
+      caller (account UPN, object id, and/or app/service-principal), the source IP if
+      present, and every Azure resource that was deleted, with its resource group and type.
+
+  - id: blast_radius
+    prompt: >-
+      Assess blast radius: how many resources were deleted, across how many resource groups
+      and subscriptions, over what time window. Note whether the caller routinely performs
+      delete operations (compare to their AzureActivity history) and call out any
+      role-assignment or privilege-escalation activity by the same caller nearby.
+
+  - id: containment
+    prompt: >-
+      Recommend prioritized containment for a destructive-impact (T1485) event, as concrete
+      ordered steps an analyst can run now: 1) disable/quarantine the caller identity,
+      2) apply CanNotDelete locks to the affected resource groups, 3) restore from backup,
+      4) hunt initial access. Reference investigations/INV-01-mass-resource-deletion.
+
+  - id: hunt
+    prompt: >-
+      Generate a KQL hunting query over AzureActivity that finds all delete-type operations
+      by the same caller in the last {{LookbackHours}} hours, projecting TimeGenerated,
+      Caller, CallerIpAddress, OperationNameValue, ResourceGroup and ActivityStatusValue,
+      sorted newest first.
+
+  - id: comment
+    prompt: >-
+      Produce a concise, analyst-ready markdown summary (<= 250 words) combining the
+      findings above, suitable to post verbatim as a Sentinel incident comment. Lead with a
+      one-line verdict and the single recommended first action.

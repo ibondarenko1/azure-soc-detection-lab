@@ -1,0 +1,34 @@
+{
+  "_comment": "Sentinel automation rule body. PUT to .../providers/Microsoft.SecurityInsights/automationRules/<new-guid>?api-version=2025-09-01 after substituting the <...> placeholders (see ./README.md). Binds the Security Copilot AI-triage playbook to the DET-004 (Mass resource deletion) analytic rule. order=2 so it runs alongside the order=1 mass-deletion-response containment-comment rule.",
+  "properties": {
+    "displayName": "DET-004 Mass deletion -> Security Copilot AI triage",
+    "order": 2,
+    "triggeringLogic": {
+      "isEnabled": true,
+      "triggersOn": "Incidents",
+      "triggersWhen": "Created",
+      "conditions": [
+        {
+          "conditionType": "Property",
+          "conditionProperties": {
+            "propertyName": "IncidentRelatedAnalyticRuleIds",
+            "operator": "Contains",
+            "propertyValues": [
+              "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RG>/providers/Microsoft.OperationalInsights/workspaces/<WORKSPACE>/providers/Microsoft.SecurityInsights/alertRules/139a66be-c7a6-4518-9404-b811caab736d"
+            ]
+          }
+        }
+      ]
+    },
+    "actions": [
+      {
+        "order": 1,
+        "actionType": "RunPlaybook",
+        "actionConfiguration": {
+          "logicAppResourceId": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RG>/providers/Microsoft.Logic/workflows/pb-copilot-triage",
+          "tenantId": "<TENANT_ID>"
+        }
+      }
+    ]
+  }
+}
