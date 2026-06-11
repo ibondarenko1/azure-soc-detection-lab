@@ -1,7 +1,7 @@
 # Machine-readable per-detection metrics.
 # truePositivesObserved references the real incidents this repo raised.
 # mttdMinutesObserved = scheduled-rule interval + observed ingestion lag.
-# observedFalsePositiveRate: a single-tenant lab cannot produce a meaningful FP RATE
+# observedFalsePositiveRate: a single-tenant environment cannot produce a meaningful FP RATE
 # (N is tiny; "0%" at N=1 is absence of data, not a measurement). Each rule states the
 # honest position plus how FP would actually be measured in production: the share of
 # that rule's incidents closed as benign over a rolling 30 days, driven down by tuning
@@ -14,7 +14,7 @@
 DET-001:
   name: Failed Activity Log operations spike
   expectedEventVolumePerDay: "<1 (admin-plane failures are rare outside probing)"
-  observedFalsePositiveRate: "not measurable at lab scale; in prod = share of these incidents closed-as-benign over 30d. Benign baseline here: 0 callers crossed >=8 failures/5m outside the simulation"
+  observedFalsePositiveRate: "not measurable at single-tenant scale; in prod = share of these incidents closed-as-benign over 30d. Benign baseline here: 0 callers crossed >=8 failures/5m outside the simulation"
   truePositivesObserved: 1          # incident #4
   ruleIntervalMinutes: 15
   mttdMinutesObserved: 18
@@ -22,7 +22,7 @@ DET-001:
 DET-002:
   name: Network Security Group rule modified
   expectedEventVolumePerDay: "0-2 (NSG changes are infrequent in a small env)"
-  observedFalsePositiveRate: "not measurable at lab scale; in prod = share of these incidents closed-as-benign over 30d, driven down by the soc-nsg-change-principals allow-list"
+  observedFalsePositiveRate: "not measurable at single-tenant scale; in prod = share of these incidents closed-as-benign over 30d, driven down by the soc-nsg-change-principals allow-list"
   truePositivesObserved: 1          # incident #5
   ruleIntervalMinutes: 30
   mttdMinutesObserved: 33
@@ -30,7 +30,7 @@ DET-002:
 DET-003:
   name: RBAC role assignment changes
   expectedEventVolumePerDay: "0-3 (onboarding / PIM activity)"
-  observedFalsePositiveRate: "not measurable at lab scale; in prod = share of these incidents closed-as-benign over 30d, driven down by the soc-automation-principals allow-list"
+  observedFalsePositiveRate: "not measurable at single-tenant scale; in prod = share of these incidents closed-as-benign over 30d, driven down by the soc-automation-principals allow-list"
   truePositivesObserved: 1          # incident #2
   ruleIntervalMinutes: 30
   mttdMinutesObserved: 33
@@ -38,7 +38,7 @@ DET-003:
 DET-004:
   name: Mass resource deletion
   expectedEventVolumePerDay: "~0 (bulk delete is exceptional)"
-  observedFalsePositiveRate: "not measurable at lab scale; in prod = share of these incidents closed-as-benign over 30d. Benign baseline here: 0 teardowns hit >=5 deletes/5m outside the simulation"
+  observedFalsePositiveRate: "not measurable at single-tenant scale; in prod = share of these incidents closed-as-benign over 30d. Benign baseline here: 0 teardowns hit >=5 deletes/5m outside the simulation"
   truePositivesObserved: 1          # incident #3 (DeleteCount 8 then 5)
   ruleIntervalMinutes: 15
   mttdMinutesObserved: 18
@@ -46,7 +46,7 @@ DET-004:
 DET-005:
   name: Suspicious resource deployment by non-owner
   expectedEventVolumePerDay: "low after v2: only non-allow-listed Compute/Storage/Web writes (was: every write)"
-  observedFalsePositiveRate: "not measurable at lab scale; in prod = share of these incidents closed-as-benign over 30d, driven down by maintaining the soc-deploy-owners watchlist"
+  observedFalsePositiveRate: "not measurable at single-tenant scale; in prod = share of these incidents closed-as-benign over 30d, driven down by maintaining the soc-deploy-owners watchlist"
   truePositivesObserved: 1          # incident #1
   ruleIntervalMinutes: 60
   mttdMinutesObserved: 63
@@ -55,7 +55,7 @@ DET-006:
   name: LSASS credential access
   dataPlane: "Defender for Endpoint Device* events + MDATP alerts (via Defender XDR connector)"
   expectedEventVolumePerDay: "~0 (LSASS access outside the Defender stack is exceptional)"
-  observedFalsePositiveRate: "not measurable at lab scale; in prod = share of these incidents closed-as-benign over 30d. Here only the authorised validation attempts fired"
+  observedFalsePositiveRate: "not measurable at single-tenant scale; in prod = share of these incidents closed-as-benign over 30d. Here only the authorised validation attempts fired"
   truePositivesObserved: 1          # incident #65 (controlled T1003.001 attempt, prevented)
   ruleIntervalMinutes: 15
   mttdMinutesObserved: 18
@@ -64,7 +64,7 @@ DET-007:
   name: Privilege grant followed by deployment (same principal)
   dataPlane: "AzureActivity self-join (roleAssignments/write -> watched-provider write, same Caller, <=30m)"
   expectedEventVolumePerDay: "~0 (the correlation is rare; either half alone does not fire)"
-  observedFalsePositiveRate: "not measurable at lab scale; in prod = share of these incidents closed-as-benign over 30d. Lower than either single-stage rule by construction (requires both steps)"
+  observedFalsePositiveRate: "not measurable at single-tenant scale; in prod = share of these incidents closed-as-benign over 30d. Lower than either single-stage rule by construction (requires both steps)"
   truePositivesObserved: 1          # live witness: grant 07:54 -> deploy 08:02 by same principal correlated
   ruleIntervalMinutes: 30
   mttdMinutesObserved: 33
@@ -82,7 +82,7 @@ DET-009:
   name: NSG rule change exposed inbound from Any
   dataPlane: "AzureActivity change event joined to ARG-sourced NSG config (soc-open-mgmt-nsg-rules watchlist, refreshed by the nsg-posture-watchlist Action)"
   expectedEventVolumePerDay: "~0; only NSG changes that leave the NSG open inbound from Any"
-  observedFalsePositiveRate: "not measurable at lab scale; far below DET-002 by construction (requires the NSG to actually be open, not just changed)"
+  observedFalsePositiveRate: "not measurable at single-tenant scale; far below DET-002 by construction (requires the NSG to actually be open, not just changed)"
   truePositivesObserved: 1          # live witness: controlled open-rule (nsg-det9-witness, RDP from *) correlated via ARG watchlist
   ruleIntervalMinutes: 60
   mttdMinutesObserved: 63

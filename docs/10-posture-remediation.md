@@ -57,7 +57,7 @@ four point-bearing controls is the entire path from 68.81% to 100%. Across the s
 
 ## Prioritize
 
-Ranked by blast radius first, then score value. A lab posture fix that breaks the lab is not a win,
+Ranked by blast radius first, then score value. A posture fix that breaks the environment is not a win,
 so the order runs from additive-and-reversible to higher-effort, and the licensing-gated items are
 called out as accepted risk rather than pretended into the backlog as quick wins.
 
@@ -114,7 +114,7 @@ its regression. Hardening removes the exposure; the detection tells you when it 
 
 Carried forward, prioritized, not silently dropped:
 
-- **Licensing-gated (accepted risk for a single-operator lab):** enable Defender for Servers, for
+- **Licensing-gated (accepted risk for a single-operator environment):** enable Defender for Servers, for
   Storage, for Resource Manager, and CSPM. These move the score and add real detection coverage but
   carry per-resource cost; only Discovery and FoundationalCspm run on Standard today. Documented as
   accepted risk with the cost rationale, the same call the posture audit tooling makes.

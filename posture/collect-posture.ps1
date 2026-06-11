@@ -58,7 +58,7 @@ $pricings = (Get-Arm "$base/pricings?api-version=2024-01-01").value | ForEach-Ob
     [ordered]@{ plan = $_.name; tier = $_.properties.pricingTier }
 }
 
-# Assessments (kept for completeness; on a free-tier lab this is commonly empty and the
+# Assessments (kept for completeness; on a free-tier subscription this is commonly empty and the
 # control breakdown above is the recommendation source)
 $assessments = (Get-Arm "$base/assessments?api-version=2020-01-01").value
 $unhealthy = @($assessments | Where-Object { $_.properties.status.code -eq "Unhealthy" })

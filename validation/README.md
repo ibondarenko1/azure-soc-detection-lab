@@ -5,7 +5,7 @@ adds the next rigor level: it drives **real, mixed activity** in the live tenant
 that the rules must stay silent on, and an attack stream they must fire on, then **measures**
 true-positive recall and the false-positive count over the benign batch.
 
-It does not pretend to be production volume (a single-tenant lab cannot). It converts the honest
+It does not pretend to be production volume (a single-tenant environment cannot). It converts the honest
 "0% FP at N=1, no data" into a measured "0 false fires over N real benign events", and gives each
 detection more than one true positive. Lineage: the attack stream mirrors what tools like
 [Stratus Red Team](https://stratus-red-team.cloud/) (cloud control-plane) and
