@@ -60,20 +60,32 @@ called out as accepted risk rather than pretended into the backlog as quick wins
    execute).
 2. **Diagnostic logs on the SOAR Logic Apps.** Turns on logging for the repo's own
    [mass-deletion-response](../playbooks/mass-deletion-response) and
-   [copilot-triage](../playbooks/copilot-triage) playbooks. Additive, and it earns the "Enable
-   auditing and logging" point (+1). Logging is also the precondition for the detections themselves,
-   so this one closes a posture gap and protects the telemetry in the same action.
-3. **Storage hardening: restrict network access, disable shared-key.** Reversible config, earns
-   "Restrict unauthorized network access" (+2). Medium blast radius (key-based tooling stops
-   working), applied with that checked first.
-4. **Encryption at host on the VM.** Earns "Enable encryption at rest" (+4), the single biggest item.
-   Requires deallocating the VM, so it is scheduled rather than done inline.
+   [copilot-triage](../playbooks/copilot-triage) playbooks, routed to `sc200-ws`. Additive, and it
+   earns the "Enable auditing and logging" point (+1). Logging is also the precondition for the
+   detections themselves, so this one closes a posture gap and protects the telemetry in the same
+   action.
+3. **Encryption at host on the sensor VM.** Earns "Enable encryption at rest" (+4), the single
+   biggest item. Requires deallocating `soc-sensor-01`, setting `securityProfile.encryptionAtHost`,
+   and starting it back up, so it runs in a short maintenance window.
+4. **Storage hardening: restrict network access, disable shared-key.** Earns "Restrict unauthorized
+   network access" (+2). The only storage account here is the Defender for Endpoint managed sensor
+   store, so flipping shared-key or network rules risks the sensor upload path; held as backlog with
+   that reason rather than flipped blind.
 5. **Access and permissions: a break-glass second owner, review excess role holders.** Earns "Manage
-   access and permissions" (+2.67).
+   access and permissions" (+2.67). Needs a second principal, so it is backlog.
 
-Items 1 and 2 are the additive, no-regret fixes done in this pass; 3 to 5 carry real blast radius and
-are sequenced behind them. The witness for each applied fix is captured as the recommendation flips
-from Unhealthy to Healthy, and the score is re-pulled once the tenant recalculates.
+### Applied this session, verified at the resource level
+
+| Fix | Action | Verified | Control |
+|-----|--------|----------|---------|
+| Security contact + alert notifications | `securityContacts/default` set, alert + owner notify On | contact state `On` | Enhanced features (0 wt) |
+| Diagnostic logs on both playbooks | `diag-to-sentinel` setting to `sc200-ws`, WorkflowRuntime logs on | both `logsEnabled: true` | Auditing and logging (+1) |
+| Encryption at host on `soc-sensor-01` | deallocate, set `encryptionAtHost=true`, start | `encryptionAtHost: True`, power `VM running` | Encryption at rest (+4) |
+
+These are confirmed at the resource level. Defender for Cloud re-evaluates the matching assessments
+on its own scan cycle (hours), and the Secure Score recalculates after that (24 to 72 hours), so the
+Unhealthy-to-Healthy flip and the score delta land on the after snapshot, not instantly. Items 4 and
+5 stay in the backlog below for the reasons given.
 
 ## Closing the loop back to the detections
 
@@ -97,8 +109,11 @@ Carried forward, prioritized, not silently dropped:
   Storage, for Resource Manager, and CSPM. These move the score and add real detection coverage but
   carry per-resource cost; only Discovery and FoundationalCspm run on Standard today. Documented as
   accepted risk with the cost rationale, the same call the posture audit tooling makes.
-- **Effort-gated:** encryption at host (needs a maintenance window), storage private link, VNet
-  service rules, Azure Backup, guest configuration / attestation extensions.
+- **Blast-radius held:** the storage account is the Defender for Endpoint managed sensor store, so
+  shared-key and VNet-rule hardening wait until the sensor upload path is confirmed independent of
+  them, rather than being flipped on the one storage account the endpoint plane depends on.
+- **Effort-gated:** storage private link, Azure Backup, guest configuration / attestation extensions,
+  and the break-glass second owner.
 
 ## Measure (after): pending re-score
 

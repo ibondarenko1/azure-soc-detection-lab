@@ -120,9 +120,12 @@ so the before/after is a file diff, not a screenshot comparison. At baseline the
 (encryption at rest, access and permissions, network access, auditing). The remediation is ordered by
 blast radius, additive fixes first, and each item is mapped to the catalog rule that catches its
 regression (storage exposure to DET-002 / DET-009, RBAC sprawl to DET-003 / DET-007, lost logging to
-the whole catalog). The after-score is gathered once the tenant recalculates (24 to 72 hours), so it
-is documented as a follow-up rather than asserted. Full method, ordered plan, and detection-linkage
-table: [docs/10, posture remediation](docs/10-posture-remediation.md).
+the whole catalog). Three fixes were applied this pass and verified at the resource level: the
+security contact and alert notifications, diagnostic logging on both SOAR playbooks (+1 auditing),
+and encryption at host on the sensor VM (+4 encryption at rest). Defender for Cloud re-evaluates and
+recalculates the score over the following 24 to 72 hours, so the after-score is documented as a
+follow-up rather than asserted now. Full method, ordered plan, and detection-linkage table:
+[docs/10, posture remediation](docs/10-posture-remediation.md).
 
 ![Microsoft Secure Score posture for the tenant](screenshots/09-secure-score.png)
 
