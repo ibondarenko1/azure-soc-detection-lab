@@ -72,4 +72,4 @@ baseline not yet accumulated, and the repo says so rather than shipping a rule t
 - **Fidelity:** the [validation harness](../validation) runs a real benign + attack batch and measures
   false positives, instead of asserting a rate. See [validation/RESULTS.md](../validation/RESULTS.md).
 - **Honesty:** single-tenant scale is a stated ceiling; metrics report what was measured, not a
-  production number the lab cannot produce.
+  production number this environment cannot produce.

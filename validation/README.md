@@ -5,7 +5,7 @@ adds the next rigor level: it drives **real, mixed activity** in the live tenant
 that the rules must stay silent on, and an attack stream they must fire on, then **measures**
 true-positive recall and the false-positive count over the benign batch.
 
-It does not pretend to be production volume (a single-tenant lab cannot). It converts the honest
+It does not pretend to be production volume (a single-tenant environment cannot). It converts the honest
 "0% FP at N=1, no data" into a measured "0 false fires over N real benign events", and gives each
 detection more than one true positive. Lineage: the attack stream mirrors what tools like
 [Stratus Red Team](https://stratus-red-team.cloud/) (cloud control-plane) and
@@ -14,13 +14,13 @@ techniques these rules detect.
 
 ## What it does
 
-- `benign.sh`  — legitimate actions that map to each rule's **silent** case (allow-listed owner
+- `benign.sh`: legitimate actions that map to each rule's **silent** case (allow-listed owner
   deploy, sub-threshold failures, sub-threshold deletes, a deploy with no preceding grant).
-- `attacks.sh` — the malicious variants that map to each rule's **fire** case (mass delete, role
+- `attacks.sh`: the malicious variants that map to each rule's **fire** case (mass delete, role
   grant, grant-then-deploy chain, NSG opened inbound from Any).
-- `measure.py` — runs each deployed rule's real KQL against the workspace over the run window and
+- `measure.py`: runs each deployed rule's real KQL against the workspace over the run window and
   reports fired / silent, then writes `RESULTS.md`.
-- `cleanup.sh` — removes everything the harness created (tracked in `.harness-state`), idempotent.
+- `cleanup.sh`: removes everything the harness created (tracked in `.harness-state`), idempotent.
 
 All resources live in `sc200-lab`, are prefixed `val-`, and are torn down by `cleanup.sh`.
 
