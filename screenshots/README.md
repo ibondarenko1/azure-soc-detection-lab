@@ -15,7 +15,7 @@ Visual evidence for these detections. Full unredacted captures are staged in `_r
 | `08-device-active.png` | Device inventory, `soc-sensor-01` Active and Onboarded (Windows 11 sensor) |
 | `09-secure-score.png` | Microsoft 365 Secure Score (61.76%, identity/apps/data/device), referenced by [docs/10](../docs/10-posture-remediation.md) |
 | `10-inc-06-lsass.png` | Sentinel incident #65 `[DET] LSASS credential access` (High), host `soc-sensor-01`, tactic Credential Access |
-| `11-sentinel-overview.png` | Microsoft Sentinel overview, incident queue + analytics-rule state |
+| `11-sentinel-overview.png` | Microsoft Sentinel overview (current): 10 analytics rules enabled, 4 active data connectors, 1 automation rule, live data received |
 | `12-secure-score-current.png` | Microsoft 365 Secure Score current state, 50.14%, 94 actions to review |
 | `13-defender-overview.png` | Defender portal dashboard, current scope: SOC optimization, UEBA, automation, connectors, secure score, devices |
 | `14-exposure-recommendations.png` | Exposure Management, exposure score 65 (Medium) + 6-day score-history trend + recommendation list |

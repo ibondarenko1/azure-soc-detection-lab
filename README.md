@@ -70,6 +70,10 @@ Each detection was triggered with a controlled, self-reverted administrative act
 
 ![Incidents queue](screenshots/05-incidents-queue-populated.png)
 
+Current operational state of the workspace: 10 analytics rules enabled, 4 active data connectors, an automation rule, and live data flowing.
+
+![Microsoft Sentinel overview, current state](screenshots/11-sentinel-overview.png)
+
 Five incidents are written up as full investigations:
 - [INV-01, Mass resource deletion (High)](investigations/INV-01-mass-resource-deletion.md)
 - [INV-02, RBAC privilege escalation](investigations/INV-02-rbac-privilege-escalation.md)
