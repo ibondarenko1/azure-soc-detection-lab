@@ -110,6 +110,25 @@ The detections start on the Azure control plane; this phase adds the endpoint pl
 
 ![TVM weaknesses, OpenSSL critical CVEs](screenshots/07-tvm-weaknesses.png)
 
+## Posture remediation
+
+The detections watch for attacks; this phase reads the tenant's own posture score and fixes what it
+flags, then proves the number moved. The Defender for Cloud Secure Score baseline is pulled as a
+[machine-readable snapshot](posture/snapshots/2026-06-10-baseline.json) by [collect-posture.ps1](posture/collect-posture.ps1),
+so the before/after is a file diff, not a screenshot comparison. At baseline the score is **68.81%**
+(21.33 / 31), and the per-control breakdown puts the entire 9.67-point gap in four controls
+(encryption at rest, access and permissions, network access, auditing). The remediation is ordered by
+blast radius, additive fixes first, and each item is mapped to the catalog rule that catches its
+regression (storage exposure to DET-002 / DET-009, RBAC sprawl to DET-003 / DET-007, lost logging to
+the whole catalog). Three fixes were applied this pass and verified at the resource level: the
+security contact and alert notifications, diagnostic logging on both SOAR playbooks (+1 auditing),
+and encryption at host on the sensor VM (+4 encryption at rest). Defender for Cloud re-evaluates and
+recalculates the score over the following 24 to 72 hours, so the after-score is documented as a
+follow-up rather than asserted now. Full method, ordered plan, and detection-linkage table:
+[docs/10, posture remediation](docs/10-posture-remediation.md).
+
+![Microsoft Secure Score posture for the tenant](screenshots/09-secure-score.png)
+
 ## Repository layout
 
 ```
@@ -124,6 +143,7 @@ kql/              analytics-rule queries + hunting library
 investigations/   end-to-end incident write-ups
 simulations/      exact atomic-aligned trigger steps
 navigator/        ATT&CK coverage layer (covered + gaps)
+posture/          Secure Score baseline collector + JSON snapshots + remediation script
 playbooks/        SOAR response (Logic App + automation rule)
 docs/             architecture, methodology, cicd, validation, data-dictionary, endpoint+TVM, detection-strategy, tuning case study
 screenshots/      visual evidence
@@ -131,7 +151,7 @@ screenshots/      visual evidence
 
 ## Skills demonstrated
 
-KQL · Microsoft Sentinel scheduled analytics rules · multi-stage correlation rules · Entra ID identity detection (SigninLogs) · allow-list watchlists (`_GetWatchlist`) · Azure Resource Graph posture-as-content (scheduled Action) · Microsoft Defender XDR · Microsoft Defender for Endpoint · Defender Vulnerability Management (TVM) · advanced hunting (Device / DeviceTvm tables) · Detection-as-Code (GitHub Actions, OIDC) · SOAR (Logic Apps automation rules) · Sigma (vendor-neutral) · Atomic Red Team validation · incident triage and investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
+KQL · Microsoft Sentinel scheduled analytics rules · multi-stage correlation rules · Entra ID identity detection (SigninLogs) · allow-list watchlists (`_GetWatchlist`) · Azure Resource Graph posture-as-content (scheduled Action) · Microsoft Defender XDR · Microsoft Defender for Endpoint · Defender Vulnerability Management (TVM) · advanced hunting (Device / DeviceTvm tables) · Microsoft Secure Score · Defender for Cloud posture remediation (CSPM, MCSB) · Detection-as-Code (GitHub Actions, OIDC) · SOAR (Logic Apps automation rules) · Sigma (vendor-neutral) · Atomic Red Team validation · incident triage and investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
 
 ## Credentials
 

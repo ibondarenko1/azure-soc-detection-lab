@@ -13,7 +13,7 @@ Visual evidence for these detections. Full unredacted captures are staged in `_r
 | `06-inc-04-overview.png` | Mass resource deletion (High) alert detail, caller + delete counts 8/5 over threshold |
 | `07-tvm-weaknesses.png` | Defender Vulnerability Management, OpenSSL critical CVEs (CVSS 9.8), 3 critical / 19 in org |
 | `08-device-active.png` | Device inventory, `soc-sensor-01` Active and Onboarded (Windows 11 sensor) |
-| `09-secure-score.png` | Microsoft Secure Score posture for the tenant |
+| `09-secure-score.png` | Microsoft 365 Secure Score (61.76%, identity/apps/data/device), referenced by [docs/10](../docs/10-posture-remediation.md) |
 | `10-inc-06-lsass.png` | Sentinel incident #65 `[DET] LSASS credential access` (High), host `soc-sensor-01`, tactic Credential Access |
 | `11-sentinel-overview.png` | Microsoft Sentinel overview, incident queue + analytics-rule state |
 
@@ -31,3 +31,10 @@ Still review before publishing:
 ## Optional / not in v1
 
 Per-rule logic shots (`03-rule-0N`), per-incident shots for DET-001/02/05 (`06-inc-01/02/05`), attack-story/timeline (`07`, `08`), and the investigation pivot (`09`) were not captured, the consolidated alert queue (`05`) and the two detail shots cover the story. Add them later if desired.
+
+For the posture-remediation phase ([docs/10](../docs/10-posture-remediation.md)), the Defender for
+Cloud Secure Score and its recommendation breakdown are kept as a diffable JSON snapshot
+([posture/snapshots](../posture/snapshots)) rather than a screenshot, so no image is required for the
+numbers. Optional additive captures if a visual is wanted: `12-defender-cloud-score.png` (the 68.81%
+posture score), `13-recommendations.png` (the recommendation list), and an after-remediation
+re-score once the tenant recalculates. Same redaction (URL bar cropped, account chip blacked out).
