@@ -147,6 +147,15 @@ contact On), but the free-tier CSPM scanner re-evaluates assessments on its own 
 encryption-at-rest (+4) and auditing (+1) controls have not flipped yet. Those points land on the
 next snapshot. Measured, not assumed.
 
+A second after-pull a day later
+([`2026-06-12-after2.json`](../posture/snapshots/2026-06-12-after2.json)) is byte-identical to the
+06-11 snapshot: 68.81%, the same eight controls below 100%, encryption-at-rest and auditing still
+showing their unhealthy resources. The three resource-level fixes were re-checked the same day and all
+still hold (security contact `On`, `encryptionAtHost: True`, both playbooks' `diag-to-sentinel`
+WorkflowRuntime logs enabled to `sc200-ws`). So the flat score is the free-tier scan interval, not a
+reverted change. The honest read on this plane is that the fix is done and the score has a lag, and
+the snapshot diff is what proves which of the two it is.
+
 **One device, two records (not a deletion).** Defender inventory shows two device entries, both
 `soc-sensor-01` at the same IP, classified Server and Workstation. That is the single Azure VM
 dual-classified, not two machines, and the Azure Activity Log shows zero delete operations across
@@ -158,10 +167,25 @@ all providers, so nothing was removed.
 
 ![Device inventory: two records are the one dual-classified sensor](../screenshots/17-device-inventory.png)
 
-**Still open (the direct exposure recommendations).** Three software-update recommendations remain on
-the sensor: update Edge to 149.0.4022.62, update Windows Server 2022 OS, update apps with vulnerable
-OpenSSL libraries. These are device-level patches, and `soc-sensor-01` is drivable via
-`az vm run-command`, so they are the next remediation step.
+**The direct exposure recommendations, executed and verified.** Three software-update
+recommendations sat on the sensor: update Edge, update Windows, and update apps with a vulnerable
+OpenSSL library. `soc-sensor-01` is drivable through `az vm run-command`, so each was actioned and
+the result read back at the device level rather than waiting on the portal
+([device-verification snapshot](../posture/snapshots/2026-06-12-device-verification.json)):
+
+| Recommendation | Action | Verified state | Status |
+|----------------|--------|----------------|--------|
+| Update Microsoft Edge | run-command update | Edge `149.0.4022.62` (the exact target build), reboot pending `False` | Resolved |
+| Update Windows | run-command Windows Update, pending count read back | `0` pending updates, `RebootPending False` | Resolved |
+| Vulnerable OpenSSL library | located the file | `C:\Windows\System32\libcrypto.dll` (3.8.2.0), an OS-image component (Windows OpenSSH) | System-owned, accepted |
+
+The single VM reports as **Windows 11 Pro**, fully patched. The "Windows Server 2022" wording in the
+recommendation is the duplicate Server classification of this one host, not a second machine to patch.
+The OpenSSL item is a system library shipped with the OS image, so its fix path is the Windows
+servicing channel rather than an app uninstall, and it is tracked as system-owned rather than pretended
+into a quick win. Microsoft Defender for Endpoint re-evaluates the exposure recommendations on its own
+scan cycle, the same cadence caveat as Defender for Cloud below, so the device-level truth here is the
+`az vm run-command` read-back, not the portal tile.
 
 ## Lesson
 

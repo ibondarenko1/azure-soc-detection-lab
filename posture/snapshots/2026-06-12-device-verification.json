@@ -1,0 +1,33 @@
+{
+  "label": "device-verification",
+  "capturedUtc": "2026-06-12T19:30:00Z",
+  "source": "az vm run-command invoke on soc-sensor-01 (resource-level state, MDE-independent), subscription redacted",
+  "method": "RunPowerShellScript: Edge client registry pv, WindowsUpdate RebootRequired key, Microsoft.Update.Session searcher (IsInstalled=0), Win32_OperatingSystem.Caption, scoped libcrypto/libssl scan",
+  "device": "soc-sensor-01",
+  "os": "Microsoft Windows 11 Pro",
+  "exposureRecommendations": {
+    "updateEdge": {
+      "status": "Resolved",
+      "target": "149.0.4022.62",
+      "observed": "149.0.4022.62",
+      "match": true
+    },
+    "updateWindows": {
+      "status": "Resolved",
+      "pendingUpdates": 0,
+      "rebootPending": false,
+      "note": "The single VM is Windows 11 Pro, fully patched. The Windows Server 2022 wording in the recommendation tracks the duplicate Server classification of this one host, not a second machine."
+    },
+    "vulnerableOpenSsl": {
+      "status": "System-owned (accepted)",
+      "file": "C:\\Windows\\System32\\libcrypto.dll",
+      "productVersion": "3.8.2.0",
+      "note": "Part of the OS image (Windows OpenSSH), not a separately installed app. Its fix path is the Windows servicing channel, not an app uninstall, so it is tracked as system-owned rather than a device-level app update."
+    }
+  },
+  "defenderForCloudFixesStillInPlace": {
+    "securityContact": "alertNotifications On (High), notificationsByRole On (Owner), email set",
+    "encryptionAtHost": true,
+    "diagnosticLogs": "diag-to-sentinel WorkflowRuntime enabled to sc200-ws on both playbooks"
+  }
+}
