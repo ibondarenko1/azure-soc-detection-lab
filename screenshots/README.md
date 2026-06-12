@@ -24,6 +24,10 @@ Visual evidence for these detections. Full unredacted captures are staged in `_r
 | `17-device-inventory.png` | Device inventory: two records both `soc-sensor-01` (Server + Workstation), one dual-classified VM |
 | `18-tvm-weaknesses-after.png` | TVM weaknesses, current volume after remediation |
 | `19-exposure-after.png` | Exposure score after, 47 (down from 65) with 6-day downward trend + 3 open recommendations |
+| `20-exposure-device-recommendations.png` | Exposure Management Devices tab: exposure score 47 + the three named software-update recommendations (Edge 149.0.4022.62, Windows Server 2022, OpenSSL), the live witness for the device-remediation table in docs/10 |
+| `21-secure-score-history.png` | Microsoft 365 Secure Score Overview with the History panel: the 7.00-point gain dated 06-10 is the Secure Boot 2023 certificates action, the witness for the +7 claim |
+| `22-secure-score-trend.png` | Microsoft 365 Secure Score Metrics and trends: 90-day comparison, +12.92%, 441.5 points achieved, 0 regressed |
+| `23-device-dual-classification.png` | Composite of two Defender device records for the one host `soc-sensor-01`: Server / Windows Server 2022 and Workstation / Windows 11, the witness for the one-device-two-records point |
 
 ## Redaction
 
@@ -35,6 +39,12 @@ which carried the UPN, the organization name, and the profile photo. On `10` the
 In the alert-detail shots (`06-inc-03`, `06-inc-04`) the Query-results "Caller" column is blacked out
 (it carried a UPN), and the rule-description line was corrected from the early "SC-200 lab rule:"
 wording to the current rule name, matching the deployed `[DET]` catalog.
+
+The posture-witness shots `20` and `21` have the top-right account chip blacked out (avatar / profile);
+`22` is a content-only capture with no chip to redact. `23` is a composite built from two device-record
+captures cropped to the VM-details block only, so the Device ID, MAC, and public IP that appear lower
+in those pages are not included in the frame. The full unredacted source captures for `20` to `23` are
+staged in `_raw/` (git-ignored).
 
 ## Optional / not in v1
 
