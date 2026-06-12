@@ -42,6 +42,32 @@ technical side) of a criterion whose full satisfaction needs the governance wrap
 | **CC7.5** | Recover from incidents and learn from them | Playbook containment and restore guidance; the DET-005 tuning case study is a measured lessons-learned loop | [playbooks/](../playbooks), [docs/09](09-tuning-case-study.md) | Partial (guidance and tuning, not automated recovery) |
 | **CC8.1** | Authorize, design, test, approve, and implement changes | Detection-as-Code: every rule change is a PR, CI validates and unit-tests it, a review approves it, and merge deploys it by OIDC, idempotent by rule GUID | [cicd/](../cicd), [deploy-detections.yml](../.github/workflows/deploy-detections.yml), [docs/03](03-cicd.md), [tests/](../tests) | Strong |
 
+## Where each criterion still needs the org layer
+
+The table above is the technical half. SOC 2 satisfies a criterion only when the technical activity
+sits inside a governed process: a written policy, an owner, and evidence the control ran across the
+audit period. This row-by-row gap is the honest boundary, so a reader knows exactly what this repo
+carries and what would still be on the organization. The org-layer column is the work that lives in a
+GRC program (scope, policy, risk register, evidence over time), not in a detection repository.
+
+| TSC | Covered here (technical) | Remains at the org layer |
+|-----|--------------------------|--------------------------|
+| **CC3.2** | Technical threat model and ATT&CK coverage, gaps risk-ranked and tracked as issues | A formal risk assessment across all objectives, a risk register with owners and treatment, a periodic re-assessment cadence |
+| **CC4.1** | Validation harness measures rule effectiveness; posture re-score re-measures after fixes | A monitoring program with management review of the results and evidence the evaluations run on schedule across the period |
+| **CC6.1** | Detections for RBAC and identity changes; posture access-and-permissions control | Provisioning and deprovisioning procedures, periodic access recertification, a documented least-privilege authorization workflow |
+| **CC6.6** | NSG-exposure detections; posture network-access control | A network segmentation standard, a firewall and NSG change-approval process, periodic rule review |
+| **CC6.8** | Endpoint credential-access detection and TVM hunting on a hardened sensor | An endpoint-protection policy and a hardening baseline applied across the fleet, with EDR-coverage attestation |
+| **CC7.1** | Defender Vulnerability Management hunts and a verified exposure-remediation loop | A vulnerability-management policy with remediation SLAs by severity and a config baseline (for example CIS) with drift monitoring |
+| **CC7.2** | The nine-rule catalog across control plane, endpoint, and identity | A documented monitoring scope, alerting ownership and on-call, and evidence it ran continuously over the period |
+| **CC7.3** | Triage of fired rules into incidents, each a documented investigation | An incident classification and severity policy with triage SLAs, applied consistently across the period |
+| **CC7.4** | SOAR automation and containment guidance; Security Copilot triage | A written incident-response plan with roles, escalation, and notification procedures including any regulatory reporting |
+| **CC7.5** | Containment and restore guidance; the DET-005 tuning lessons loop | Tested backup, restore, and BCP/DR with defined RTO and RPO, plus evidence of recovery testing |
+| **CC8.1** | PR-gated Detection-as-Code: CI validate, unit tests, OIDC deploy by GUID | A change-management policy covering the whole environment, an emergency-change procedure, and author-and-approver separation enforced organizationally |
+
+The pattern is the same down every row: the repo is strong on the control **running and being measured**,
+and the gap is the **governed wrapper** around it. That is the honest split between detection engineering
+and a SOC 2 program, and it is why this document is a mapping rather than a remediation.
+
 ## How this would read in an audit
 
 A SOC 2 Type II examination tests whether a control operated over a period, not just at a point in time,
