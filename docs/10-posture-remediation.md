@@ -131,8 +131,8 @@ for the Defender for Cloud plane; portal captures for the M365 and exposure plan
 
 | Plane | Before (06-10) | After (06-11) | Delta | Evidence |
 |-------|----------------|---------------|-------|----------|
-| Microsoft 365 Secure Score | 50.14%, 94 actions | **50.79%, 93 actions** | **+7.00 points** (Secure Boot 2023 certificates) | [16](../screenshots/16-secure-score-after.png) |
-| Exposure score | 65 (Medium) | **47 (Medium)** | **-18** (lower is better), 4 recs to 3 | [19](../screenshots/19-exposure-after.png) |
+| Microsoft 365 Secure Score | 50.14%, 94 actions | **50.79%, 93 actions** | **+7.00 points** (Secure Boot 2023 certificates) | [16](../screenshots/16-secure-score-after.png), [21](../screenshots/21-secure-score-history.png), [22](../screenshots/22-secure-score-trend.png) |
+| Exposure score | 65 (Medium) | **47 (Medium)** | **-18** (lower is better), 4 recs to 3 | [19](../screenshots/19-exposure-after.png), [20](../screenshots/20-exposure-device-recommendations.png) |
 | Defender for Cloud Secure Score | 68.81% (21.33/31) | 68.81% | 0, re-scan pending | snapshot JSON |
 
 **What moved and why.** Item 3 of the plan (encryption at host) deallocated and restarted
@@ -140,6 +140,11 @@ for the Defender for Cloud plane; portal captures for the M365 and exposure plan
 2023 certificates. That cleared the "Update Windows 11" exposure recommendation (exposure 65 to 47)
 and earned the M365 Secure Boot action (+7 points). The maintenance window for the encryption fix
 paid out on two adjacent score planes before its own Defender for Cloud control even re-evaluated.
+The Secure Score History panel records this as a discrete entry, "7.00 points gained by completing
+Ensure devices are updated to Secure Boot 2023 cert..." dated 06-10
+([21](../screenshots/21-secure-score-history.png)), and the 90-day Metrics and trends view shows the
+cumulative climb: +12.92%, 441.5 points achieved, 0 regressed
+([22](../screenshots/22-secure-score-trend.png)).
 
 **Defender for Cloud is still flat, by scan cadence not by failure.** The three DfC fixes are
 confirmed at the resource level (encryptionAtHost=true, diagnostic settings logsEnabled, security
@@ -163,9 +168,15 @@ all providers, so nothing was removed.
 
 ![Microsoft 365 Secure Score after, 50.79% (+7 points)](../screenshots/16-secure-score-after.png)
 
+![Secure Score History: the 7.00-point gain is the Secure Boot 2023 certificates action on 06-10](../screenshots/21-secure-score-history.png)
+
+![Secure Score 90-day Metrics and trends: +12.92%, 441.5 points achieved, 0 regressed](../screenshots/22-secure-score-trend.png)
+
 ![Exposure score after, 47 with the 6-day downward trend](../screenshots/19-exposure-after.png)
 
 ![Device inventory: two records are the one dual-classified sensor](../screenshots/17-device-inventory.png)
+
+![Same host soc-sensor-01 as two Defender records: Server with Windows Server 2022, and Workstation with Windows 11](../screenshots/23-device-dual-classification.png)
 
 **The direct exposure recommendations, executed and verified.** Three software-update
 recommendations sat on the sensor: update Edge, update Windows, and update apps with a vulnerable
@@ -186,6 +197,8 @@ servicing channel rather than an app uninstall, and it is tracked as system-owne
 into a quick win. Microsoft Defender for Endpoint re-evaluates the exposure recommendations on its own
 scan cycle, the same cadence caveat as Defender for Cloud below, so the device-level truth here is the
 `az vm run-command` read-back, not the portal tile.
+
+![Exposure Devices tab: score 47 and the three named software-update recommendations (Edge 149.0.4022.62, Windows Server 2022, OpenSSL)](../screenshots/20-exposure-device-recommendations.png)
 
 ## Lesson
 
