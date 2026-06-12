@@ -70,7 +70,7 @@ Each detection was triggered with a controlled, self-reverted administrative act
 
 ![Incidents queue](screenshots/05-incidents-queue-populated.png)
 
-Current operational state of the workspace: 10 analytics rules enabled, 4 active data connectors, an automation rule, and live data flowing.
+Current operational state of the workspace: 10 analytics rules enabled, 4 active data connectors, an automation rule, and live data flowing. The 10 enabled rules are the nine custom `[DET]` scheduled rules in this catalog plus Microsoft's built-in Fusion rule (Advanced Multistage Attack Detection), which is on by default and not authored here; the nine figure elsewhere in this README counts the custom rules only.
 
 ![Microsoft Sentinel overview, current state](screenshots/11-sentinel-overview.png)
 
