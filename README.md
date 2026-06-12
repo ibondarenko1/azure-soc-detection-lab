@@ -135,6 +135,18 @@ follow-up rather than asserted now. Full method, ordered plan, and detection-lin
 
 ![Exposure Management score, 6-day trend, and recommendation list](screenshots/14-exposure-recommendations.png)
 
+## SOC 2 control mapping
+
+This work supports a recognized control framework, so the repo says where. Each part of the catalog
+maps to a SOC 2 Trust Services Criterion: the nine-rule catalog and incidents to the monitor-and-respond
+series (CC7.2 to CC7.4), the SOAR playbooks to incident response (CC7.4), the PR-gated Detection-as-Code
+pipeline to change management (CC8.1), and the validation harness and posture before-and-after to control
+operating effectiveness (CC4.1). It is framed as a mapping, not a compliance claim: this is one tenant I
+operate, not an audited organization, so the document maps the technical control activities and is
+explicit about the governance wrapper a real SOC 2 report needs that a detection repo does not carry.
+Full criterion-by-criterion table and the how-it-reads-in-an-audit note:
+[docs/11, SOC 2 control mapping](docs/11-soc2-control-mapping.md).
+
 ## Repository layout
 
 ```
@@ -151,13 +163,13 @@ simulations/      exact atomic-aligned trigger steps
 navigator/        ATT&CK coverage layer (covered + gaps)
 posture/          Secure Score baseline collector + JSON snapshots + remediation script
 playbooks/        SOAR response (Logic App + automation rule)
-docs/             architecture, methodology, cicd, validation, data-dictionary, endpoint+TVM, detection-strategy, tuning case study
+docs/             architecture, methodology, cicd, validation, data-dictionary, endpoint+TVM, detection-strategy, tuning case study, posture remediation, SOC 2 control mapping
 screenshots/      visual evidence
 ```
 
 ## Skills demonstrated
 
-KQL · Microsoft Sentinel scheduled analytics rules · multi-stage correlation rules · Entra ID identity detection (SigninLogs) · allow-list watchlists (`_GetWatchlist`) · Azure Resource Graph posture-as-content (scheduled Action) · Microsoft Defender XDR · Microsoft Defender for Endpoint · Defender Vulnerability Management (TVM) · advanced hunting (Device / DeviceTvm tables) · Microsoft Secure Score · Defender for Cloud posture remediation (CSPM, MCSB) · Detection-as-Code (GitHub Actions, OIDC) · SOAR (Logic Apps automation rules) · Sigma (vendor-neutral) · Atomic Red Team validation · incident triage and investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
+KQL · Microsoft Sentinel scheduled analytics rules · multi-stage correlation rules · Entra ID identity detection (SigninLogs) · allow-list watchlists (`_GetWatchlist`) · Azure Resource Graph posture-as-content (scheduled Action) · Microsoft Defender XDR · Microsoft Defender for Endpoint · Defender Vulnerability Management (TVM) · advanced hunting (Device / DeviceTvm tables) · Microsoft Secure Score · Defender for Cloud posture remediation (CSPM, MCSB) · SOC 2 Common Criteria control mapping · Detection-as-Code (GitHub Actions, OIDC) · SOAR (Logic Apps automation rules) · Sigma (vendor-neutral) · Atomic Red Team validation · incident triage and investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
 
 ## Credentials
 
