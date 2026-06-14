@@ -34,3 +34,7 @@ Each detection is tagged with one primary tactic/technique, carried through the 
 ## Why scheduled analytics rules
 
 Scheduled rules run on a fixed query interval against the workspace, so detection is decoupled from the simulated action, exactly how a production SOC sees activity after the fact. This also means an incident appears on the rule's next run, not instantly; the lag is expected and documented per detection.
+
+---
+
+*Topics: detection engineering methodology, KQL, Microsoft Sentinel scheduled analytics rules, detection testing, MITRE ATT&CK mapping, Atomic Red Team validation, SOC incident response.*
