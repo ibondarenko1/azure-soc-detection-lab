@@ -73,3 +73,7 @@ baseline not yet accumulated, and the repo says so rather than shipping a rule t
   false positives, instead of asserting a rate. See [validation/RESULTS.md](../validation/RESULTS.md).
 - **Honesty:** single-tenant scale is a stated ceiling; metrics report what was measured, not a
   production number this environment cannot produce.
+
+---
+
+*Topics: detection engineering, threat modeling, Microsoft Sentinel, KQL, MITRE ATT&CK for cloud, Azure control-plane monitoring, SIEM detection coverage.*
