@@ -7,8 +7,25 @@ Detection engineering on a live Microsoft Sentinel and Defender XDR environment 
 > A live single-tenant environment I operate end to end. Tenant and subscription identifiers and any PII are redacted in all screenshots.
 
 ![deploy-detections](https://github.com/ibondarenko1/azure-sentinel-detection-engineering/actions/workflows/deploy-detections.yml/badge.svg)
+![detections](https://img.shields.io/badge/detections-9%20across%203%20planes-2da44e) ![ATT&CK](https://img.shields.io/badge/ATT%26CK-7%20techniques%20%7C%203%20gaps%20tracked-205b8f) ![validation](https://img.shields.io/badge/validation-5%2F5%20fired%20%7C%200%20false%20fires-2da44e)
+
+> Figures are traceable: coverage to the [ATT&CK layer](navigator/coverage-layer.json), validation to [RESULTS.md](validation/RESULTS.md). There is deliberately **no false-positive-rate badge**: a single-tenant environment cannot produce a meaningful FP rate, so the repo reports measured false fires over a real benign batch instead of a fabricated percentage ([metrics.yaml](detections/metrics.yaml) states this in full).
 
 ---
+
+## Quick start
+
+**Run the detection unit tests on a fork, no Azure needed.** Each rule's real KQL runs against synthetic fixtures in a local Kusto emulator, so the detection logic is verifiable without my tenant:
+
+```bash
+git clone https://github.com/ibondarenko1/azure-sentinel-detection-engineering
+cd azure-sentinel-detection-engineering
+docker run -d --rm -p 8080:8080 -e ACCEPT_EULA=Y mcr.microsoft.com/azuredataexplorer/kustainer-linux:latest
+pip install pyyaml
+python tests/run-detection-tests.py
+```
+
+This is the exact check CI runs on every pull request ([detection-tests](.github/workflows/detection-tests.yml)): it asserts each rule fires on malicious fixtures and stays silent on benign ones. The live harness in [validation/](validation/) goes further, driving a real benign and attack batch in a tenant and measuring true positives and false fires, but that one needs your own Azure subscription and `az login` (see [validation/README](validation/README.md)), so it is not "local". Deployment pipeline: [docs/03](docs/03-cicd.md). Contributing a rule: [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Why this exists
 
@@ -170,6 +187,10 @@ screenshots/      visual evidence
 ## Skills demonstrated
 
 KQL · Microsoft Sentinel scheduled analytics rules · multi-stage correlation rules · Entra ID identity detection (SigninLogs) · allow-list watchlists (`_GetWatchlist`) · Azure Resource Graph posture-as-content (scheduled Action) · Microsoft Defender XDR · Microsoft Defender for Endpoint · Defender Vulnerability Management (TVM) · advanced hunting (Device / DeviceTvm tables) · Microsoft Secure Score · Defender for Cloud posture remediation (CSPM, MCSB) · SOC 2 Common Criteria control mapping · Detection-as-Code (GitHub Actions, OIDC) · SOAR (Logic Apps automation rules) · Sigma (vendor-neutral) · Atomic Red Team validation · incident triage and investigation · MITRE ATT&CK mapping · Azure control-plane (Activity Log) monitoring.
+
+## Contributing
+
+This is a personal portfolio, but it is structured so a detection change is a reviewable pull request, not a portal click. If you fork it or want to propose a rule, [CONTRIBUTING.md](CONTRIBUTING.md) covers the workflow: edit the rule YAML, regenerate the KQL mirror, extend the test fixture, run the unit tests locally, and open a PR that the same CI gates check.
 
 ## Credentials
 
